@@ -1,0 +1,27 @@
+<div class="box mt-2 mb-5">
+    <form class="login-form mt-5 mb-5" method="POST" action="/login" id="loginForm">
+        <h2 class="h11 text-center">Admin Login</h2>
+
+        <div class="form-group">
+            <label for="user_email">Email</label>
+            <input type="text" class="form-control" id="user_email" name="email" placeholder="abc@gmail.com" />
+        </div>
+
+        <div class="form-group">
+            <label for="user_password">Password</label>
+            <input type="password" class="form-control" id="user_password" name="password" placeholder=" * * * * * * * * *" />
+        </div>
+        <div class="links">
+            <a href="#">Forgot Password</a>
+        </div>
+        <input class="text-dark btn btn-primary mt-4" type="button" value="Login" onclick="submitForm()">
+        <p id="p1">Or SignUp Using</p>
+        <a class="btn btn-primary text-dark" href="/adSignup">Signup</a>
+
+        <div class="links">
+            <a href="#" target="_blank"><i class="fab fa-facebook-f fb"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-twitter tw"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-google go"></i></a>
+        </div>
+    </form>
+</div>

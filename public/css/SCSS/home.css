@@ -1,0 +1,89 @@
+.main-container {
+    width: 60%;
+    padding: 0.4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+
+
+.sub--main-title {
+    font-family: "Lora", serif;
+    font-weight: 400;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.main-title {
+    font-weight: 900;
+    font-size: 3rem;
+    text-align: center;
+    line-height: 4rem;
+}
+
+.description {
+    text-align: center;
+    line-height: 1.5rem;
+}
+
+.main-button {
+    width: 100px;
+    height: 35px;
+    background-color: rgba(255, 255, 255, 0.268);
+    color: white;
+    font-weight: 600;
+    border-radius: 0.4rem;
+    border: none;
+    border: white 2px solid;
+}
+
+.main-button:hover {
+    cursor: pointer;
+    background-color: white;
+    color: #330033;
+    transition: 0.3s ease-in-out;
+}
+
+.main-button:active {
+    border-radius: 0.6rem;
+}
+
+/* Responsivness */
+
+@media only screen and (max-width: 552px) {
+    .main-container {
+        width: 80%;
+    }
+}
+
+@media only screen and (max-width: 552px) {
+    .main-container {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 320px) {
+    html {
+        font-size: 15px;
+    }
+
+    .main-container {
+        width: 100%;
+    }
+}
+
+.arroimage {
+    margin-top: 10%;
+    width: 70px;
+    height: 50px;
+}
+
+.cardimage {
+    margin-left: 50px;
+    width: 100px;
+    height: 80px;
+}
+

@@ -1,0 +1,73 @@
+{{>adminNavbar}}
+<div class="main-container mt-5">
+    <div class="input-group">
+        <a href="/booking_work_data" class="btn btn-primary text-dark me-5">&laquo; Back</a>
+
+        <form id="deleteForm" action="/delete_booked_data/{{booking_full_data._id}}" method="POST" class="d-inline">
+            <button class="btn btn-danger px-3" onclick="confirm_Delete()" type="button">
+                <i class="fas fa-times"></i> Delete record
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="row d-flex justify-content-center">
+            <div class="col-xl-6 col-md-12">
+                <div class="user-card-full">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card-block print-area">
+                                <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h6>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="m-b-10 f-w-600">Name</p>
+                                        <h5 class="f-w-400">{{booking_full_data.full_name}}</h5>
+                                    </div>
+                                    <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600"></h6>
+                                    <div class="col-sm-7">
+                                        <p class="m-b-10 f-w-600">Eamil</p>
+                                        <h6 class="f-w-400">{{booking_full_data.email}}</h6>
+                                    </div>
+                                    <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600"></h6>
+                                    <div class="col-sm-6">
+                                        <p class="m-b-10 f-w-600">Phone</p>
+                                        <h6 class="f-w-400">{{booking_full_data.phone_number}}</h6>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <p class="m-b-10 f-w-600">Location</p>
+                                        <h6 class="f-w-400">{{booking_full_data.location}}</h6>
+                                    </div>
+                                    <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600"></h6>
+                                    <div class="col-sm-7">
+                                        <p class="m-b-10 f-w-600">Address</p>
+                                        <h6 class="f-w-400">{{booking_full_data.address}}</h6>
+                                    </div>
+                                    <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600"></h6>
+                                    <div class="col-sm-7">
+                                        <p class="m-b-10 f-w-600">Work</p>
+                                        <h6 class="f-w-400">{{booking_full_data.type_of_work}}</h6>
+                                    </div>
+                                     <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600"></h6>
+                                    <div class="col-sm-12">
+                                        <p class="m-b-10 f-w-600">Details</p>
+                                        <h6 class="f-w-400">{{booking_full_data.projec_details}}</h6>
+                                    </div>
+                                    <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600"></h6>
+                                    <div class="col-sm-6">
+                                        <p class="m-b-10 f-w-600">Budget</p>
+                                        <h6 class="f-w-400">{{booking_full_data.budget}}</h6>
+                                    </div>
+                                    <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600"></h6>
+                                </div>
+                                <button class="btn btn-primary text-dark" id="printButton" onclick="printPage()">Print Page</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+.card:hover {
+  z-index: 1;
+  transform: scale(1.2);
+  transition: transform 0.3s ease-in-out;
+  box-shadow: 0 4px 8px rgb(255, 174, 0);
+}
+
+.anim {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typing 5s steps(45) infinite;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}

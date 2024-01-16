@@ -1,0 +1,75 @@
+{{>adminNavbar}}
+<div class="main-container mt-5">
+    <div class="input-group">
+        <a href="/new_employee_details" class="btn btn-primary text-dark me-5">&laquo; Back</a>
+         
+        <form id="deleteForm" action="/delete_records/{{new_Employee_full_data._id}}" method="POST" class="d-inline">
+            <button class="btn btn-danger px-3" onclick="confirm_Delete()" type="button">
+                <i class="fas fa-times"></i> Delete record
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="row d-flex justify-content-center">
+            <div class="col-xl-6 col-md-12">
+                <div class="user-card-full">
+                    <div class="row m-l-0 m-r-0">
+                        <div class="col-sm-5 bg-c-lite-green user-profile">
+                            <div class="card-block text-center text-white">
+                                <h3 class="f-w-600 text-dark">{{new_Employee_full_data.full_name}}
+                                    {{worker_profile.last_name}}</h3>
+                                <h5 class="text-dark">Applied for {{new_Employee_full_data.apply_position}}</h5>
+                                <h6 class="text-dark">{{new_Employee_full_data.description}}</h6>
+                                <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="card-block">
+                                <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h6>
+                                <div class="row">
+                                   <div class="col-sm-6">
+                                        <p class="m-b-10 f-w-600">Gender</p>
+                                        <h6 class="text-muted f-w-400">{{new_Employee_full_data.gender}}</h6>
+                                    </div>
+
+                                    <div class="col-sm-7">
+                                        <p class="m-b-10 f-w-600">Email</p>
+                                        <h6 class="text-muted f-w-400">{{new_Employee_full_data.email}}</h6>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <p class="m-b-10 f-w-600">Phone</p>
+                                        <h6 class="text-muted f-w-400">{{new_Employee_full_data.phone_number}}</h6>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <p class="m-b-10 f-w-600">Address</p>
+                                        <h6 class="text-muted f-w-400">{{new_Employee_full_data.address}}</h6>
+                                    </div>
+
+                                    <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Salary and Experience</h6>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <p class="m-b-10 f-w-600">Per Day Salary</p>
+                                            <h6 class="text-muted f-w-400">{{new_Employee_full_data.per_day_salary}}
+                                            </h6>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <p class="m-b-10 f-w-600">Experience</p>
+                                            <h6 class="text-muted f-w-400">{{new_Employee_full_data.experience}}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+            

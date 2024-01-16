@@ -1,0 +1,165 @@
+{{> navbar}}
+<div class="main-container mt-5">
+	<h4 class="sub--main-title mt-5">High standards, high quality</h4>
+	<h1 class="main-title anim">Design & Development</h1>
+	<p class="description sub--main-title">We connect you with the best home service professionals in your city</p>
+	<div class="buttons mt-4">
+		<a href="/services" class="btn btn-primary text-dark me-3">View More Services</a>
+		<button class="btn btn-secondary">Watch Video</button>
+	</div>
+</div>
+
+<div class="container mt-5">
+	<div class="row">
+		{{#each show_Work_details}}
+		<div class="col">
+			<!-- ... (content of the first card) -->
+			<div class="card l-bg-cherry">
+				<div class="card-statistic-3 p-4">
+					<div class="card-icon card-icon-large"><i class="fas fa-shopping-cart"></i></div>
+					<div class="mb-4">
+						<h5 class="card-title mb-0">New Task</h5>
+					</div>
+					<div class="row align-items-center mb-2 d-flex">
+						<div class="col-8">
+							<h2 class="d-flex align-items-center mb-0">
+								{{this.new_task}}+
+							</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="col">
+			<!-- ... (content of the second card) -->
+			<div class="card l-bg-blue-dark">
+				<div class="card-statistic-3 p-4">
+					<div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
+					<div class="mb-4">
+						<h5 class="card-title mb-0">Customers</h5>
+					</div>
+					<div class="row align-items-center mb-2 d-flex">
+						<div class="col-8">
+							<h2 class="d-flex align-items-center mb-0">
+								{{this.customers}}+
+							</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col">
+			<!-- Content of the third card -->
+			<div class="card l-bg-green-dark">
+				<div class="card-statistic-3 p-4">
+					<div class="card-icon card-icon-large"><i class="fas fa-ticket-alt"></i></div>
+					<div class="mb-4">
+						<h5 class="card-title mb-0">Task Completed</h5>
+					</div>
+					<div class="row align-items-center mb-2 d-flex">
+						<div class="col-8">
+							<h2 class="d-flex align-items-center mb-0">{{this.task_completed}}+</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="col">
+			<!-- ... (content of the fourth card) -->
+			<div class="card l-bg-orange-dark">
+				<div class="card-statistic-3 p-4">
+					<div class="card-icon card-icon-large"><i class="fas fa-dollar-sign"></i></div>
+					<div class="mb-4">
+						<h5 class="card-title mb-0">Team members</h5>
+					</div>
+					<div class="row align-items-center mb-2 d-flex">
+						<div class="col-8">
+							<h2 class="d-flex align-items-center mb-0">
+								{{this.team_members}}+
+							</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{{/each}}
+	</div>
+</div>
+
+<div class="main-container mt-5">
+    <h2 class="mt-5">HOW IT WORKS</h2>
+    <p class="description sub--main-title mb-5">3 simple steps to use this site</p>
+
+    <div class="card-group mt-5">
+        <div class="card me-3">
+            <img src="images/User_Image/Device.png" class="card-img-top mx-auto d-block" alt="Step 1">
+            <div class="card-body">
+                <h5 class="card-title text-center">BOOK ONLINE AND COMMUNICATE</h5>
+            </div>
+        </div>
+
+        <img src="images/User_Image/arrow.png" class="img-fluid arroimage me-3">
+
+        <div class="card me-3">
+            <img src="images/User_Image/Contact.png" class="card-img-top mx-auto d-block" alt="Step 2">
+            <div class="card-body">
+                <h5 class="card-title text-center">WE WILL CONTACT YOU AND DO YOUR WORK</h5>
+            </div>
+        </div>
+
+        <img src="images/User_Image/arrow.png" class="img-fluid arroimage me-3">
+
+        <div class="card">
+            <img src="images/User_Image/Pay.jpg" class="card-img-top mx-auto d-block" alt="Step 3">
+            <div class="card-body">
+                <h5 class="card-title text-center">DO YOUR WORK AND RECEIVE PAY</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="main-container mt-5">
+	<h2 class="mt-5">Join us as Serviceman/Worker</h2>
+	<p class="description sub--main-title mb-5">3 simple steps to join us</p>
+
+	<div class="card-group mt-3">
+    <div class="card me-3">
+        <img src="images/User_Image/Registration.png" class="mt-4 card-img-top mx-auto d-block" alt="Registration Image">
+        <div class="card-body text-center">
+            <h5 class="card-title">Fill the Registration Form</h5>
+        </div>
+    </div>
+
+    <img src="images/User_Image/arrow.png" class="img-fluid arroimage me-3">
+
+    <div class="card me-3">
+        <img src="images/User_Image/Agent.png" class="card-img-top mx-auto d-block" alt="Verification Image">
+        <div class="card-body text-center">
+            <h5 class="card-title">Our agent will contact for verification</h5>
+        </div>
+    </div>
+
+    <img src="images/User_Image/arrow.png" class="img-fluid arroimage me-3">
+
+    <div class="card me-3">
+        <img src="images/User_Image/Verified.jpg" class="card-img-top mx-auto d-block" alt="Verification Image">
+        <div class="card-body text-center">
+            <h5 class="card-title">Successfully verified, you will get details via SMS/Email</h5>
+        </div>
+    </div>
+</div>
+
+	<div class="subheading mt-5 mb-5">
+		<a href="/new_employees_joining_form" style="text-decoration:none;">
+			<button class="btn btn-primary text-dark">
+				Apply Now
+			</button>
+		</a>
+	</div>
+</div>

@@ -1,0 +1,84 @@
+{{>adminNavbar}}
+<div class="box mt-2 mb-4">
+    <div class="register mt-5">
+        <form class="login-form" id="addEmployees" action="/registration_worker" method="post" enctype="multipart/form-data">
+            <h2 class="card-title mb-3">Joining Us!</h2>
+
+            <div class="form-outline mb-4">
+                <label class="form-label mb-2" for="form4Example2">Choose image</label>
+                <input class="form-control" type="file" id="form4Example2" name="image">
+            </div>
+
+            <div class="form-group">
+                <label for="fname">First Name :</label>
+                <input type="text" name="first_name" id="fname" class="form-control"
+                    placeholder="Enter Your First Name">
+            </div>
+            <div class="form-group mt-2">
+                <label for="lname">Last Name :</label>
+                <input type="text" name="last_name" id="lname" class="form-control" placeholder="Enter Your Last Name">
+            </div>
+            <div class="form-group mt-2">
+                <label class="col-form-label">Gender:</label>
+                <div class="col-sm-10">
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="gender" id="male" value="male" class="form-check-input">
+                        <label class="form-check-label" for="male">Male</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" name="gender" id="female" value="female" class="form-check-input">
+                        <label class="form-check-label" for="female">Female</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mt-2">
+                <label for="email">Email :</label>
+                <input type="text" name="email" id="email" class="form-control" placeholder="Enter Your Email">
+            </div>
+            <div class="form-group mt-2">
+                <label for="Phone">Phone :</label>
+                <input type="text" name="phone_number" id="Phone" class="form-control"
+                    placeholder="Enter Your Phone Number">
+            </div>
+            <div class="form-group mt-2">
+                <label for="Country">Country :</label>
+                <input type="text" name="country" id="Country" class="form-control" placeholder="Country">
+            </div>
+            <div class="form-group mt-2">
+                <label for="State">State :</label>
+                <input type="text" name="state" id="State" class="form-control" placeholder="Enter Your State">
+            </div>
+            <div class="form-group mt-2">
+                <label for="City">City :</label>
+                <input type="text" name="city" id="City" class="form-control" placeholder="Enter Your City">
+            </div>
+            <div class="form-group mt-2">
+                <label for="post">Post Code :</label>
+                <input type="text" name="post_code" id="post" class="form-control" placeholder="Enter Your Post Code">
+            </div>
+            <div class="form-group mt-2">
+                <label for="Service">Service :</label>
+                <input type="text" name="service" id="Service" class="form-control" placeholder="Enter Your Service">
+            </div>
+            <div class="form-group mt-2">
+                <label for="Description">Description :</label>
+                <input type="text" name="description" id="Description" class="form-control"
+                    placeholder="Enter Your Description">
+            </div>
+            <div class="form-group mt-2">
+                <label for="Charge">Charge Per Day :</label>
+                <input type="text" name="charge" id="Charge" class="form-control" placeholder="Enter Your Charge">
+            </div>
+            <div class="form-group mt-2">
+                <label for="Charge">Completed Task :</label>
+                <input type="text" name="task_completed" id="Charge" class="form-control"
+                    placeholder="Enter Your Charge">
+            </div>
+            <div class="form-group mt-3">
+                <input type="reset" name="reset" value="Clear" class="btn btn-primary text-dark">
+                <input class="btn btn-primary text-dark" type="button" name="submit" value="Submit" onclick="addEmployeeDataForm()">
+            </div>
+        </form>
+    </div>
+</div>

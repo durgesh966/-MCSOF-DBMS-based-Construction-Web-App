@@ -1,0 +1,40 @@
+{{>navbar}}
+<div class="main-container mt-5">
+    <div class="input-group">
+        <a href="/services" class="btn btn-primary text-dark">&laquo; Back to all Service</a>
+    </div>
+</div>
+
+<div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="row d-flex justify-content-center">
+            <div class="col-xl-6 col-md-12">
+                <div class="user-card-full">
+                    <div class="container">
+                        <div class="col-sm-12">
+                            <div class="card-block">
+                                <div class="card-block text-center text-white">
+                                    <div class="m-b-25">
+                                        <img src="/uploads/{{Show_Service_info.image}}" class="mx-auto d-block" width="50%"
+                                            alt="Service_Image">
+                                    </div>
+                                    <h3 class="f-w-600 text-dark">{{Show_Service_info.titlename}}</h3>
+                                    <p class="text-dark">{{Show_Service_info.description}}</p>
+                                    <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
+                                </div>
+
+
+                                <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Next button for Book this Service</h6>
+                                <div class="row">
+                                    <div class="input-group mt-3">
+                                        <a href="/booking_service" class="btn btn-primary text-dark">Next book now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

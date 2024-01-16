@@ -1,0 +1,61 @@
+{{>adminNavbar}}
+{{#if all_contect.length}}
+<div class="main-container mt-5">
+    <form class="form-inline me-3 custom-bg" action="/show_search_contact" method="GET">
+        <div class="input-group">
+            <input type="text" class="form-control" name="query" placeholder="Search by name or number" required />
+            <button type="submit" class="btn btn-primary text-dark">Search</button>
+        </div>
+    </form>
+</div>
+
+<div class="h-100 mt-5 mb-5">
+    <div class="mask d-flex align-items-center h-100">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="shadow-2-strong" style="background-color: #f5f7fa;">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-borderless mb-0">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col" style="width: 100px;">Name</th>
+                                            <th scope="col" style="width: 150px;">Phone Number</th>
+                                            <th scope="col" style="width: 200px;">Email</th>
+                                            <th scope="col" style="width: 300px;">Message</th>
+                                            <th scope="col" style="width: 100px;">Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each all_contect}}
+                                        <tr>
+                                            <td style="width: 150px;">{{this.full_name}}</td>
+                                            <td style="width: 150px;">{{this.phone_number}}</td>
+                                            <td style="width: 200px;">{{this.email}}</td>
+                                            <td style="width: 300px;">{{this.message}}</td>
+                                            <td style="width: 100px;">
+                                                <form id="deleteForm" action="/delete/{{this._id}}" method="POST"
+                                                    class="d-inline">
+                                                    <button class="btn btn-danger btn-sm px-3"
+                                                        onclick="confirm_Delete()" type="button">
+                                                        <i class="fas fa-times"></i>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{else}}
+<div class="main-container">
+    <img src="./images/not_found/not_found.jpg" class="img-fluid" alt="Image" width="70%" />
+</div>
+{{/if}}

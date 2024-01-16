@@ -1,0 +1,74 @@
+{{>adminNavbar}}
+{{#each admin_data}}
+<div class="main-container mt-5">
+    <h2>Admin Panel</h2>
+    <h1 class="text-center anim">WelCome Mr. {{this.first_name}} {{this.last_name}} </h1>
+    <p class="description sub--main-title">Here you can make changes and add new users and services</p>
+</div>
+{{/each}}
+
+<div class="main-container mb-5">
+    <h3 class="mb-5">Here you can see all data about context user details</h3>
+    <div class="card-group">
+
+        <div class="card me-5">
+            <img src="images/Admin_Image/Booking.png" class="mx-auto d-block" width="50%" alt="...">
+            <div class="card-body">
+                <h5 class="card-title text-center">All Booking Data</h5>
+                <h5 class="card-title text-center"> <a href="/booking_work_data"
+                        class="btn btn-primary text-dark">All Bookings</a></h5>
+            </div>
+        </div>
+
+        <div class="card me-5">
+            <img src="images/Admin_Image/contactDetails.png" class="mx-auto d-block mt-2" width="50%" alt="...">
+            <div class="card-body">
+                <h5 class="card-title text-center">See all Contact's</h5>
+                <h5 class="card-title text-center"> <a href="/show_all_contects" class="btn btn-primary text-dark">Get
+                        Data</a></h5>
+            </div>
+        </div>
+
+        <div class="card me-5">
+            <img src="images/Admin_Image/newEmployee.png" class="mx-auto d-block" width="50%" alt="...">
+            <div class="card-body">
+                <h5 class="card-title text-center">New Employee Apply Details</h5>
+                <h5 class="card-title text-center"> <a href="/new_employee_details"
+                        class="btn btn-primary text-dark">Get Data</a></h5>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="main-container mt-5 mb-5">
+     <h3 class="mb-5 mt-5">Here you can Add and Update The Data</h3>
+    <div class="card-group">
+        <div class="card me-5">
+            <img src="images/Admin_Image/Service.png" class="mx-auto d-block" width="50%" alt="...">
+            <div class="card-body">
+                <h5 class="card-title text-center">Add New Service</h5>
+                <h5 class="card-title text-center"> <a href="/add-services" class="btn btn-primary text-dark">Add</a>
+                </h5>
+            </div>
+        </div>
+
+        <div class="card me-5">
+            <img src="images/Admin_Image/Add_work.png" class="mx-auto d-block" width="50%" alt="...">
+            <div class="card-body">
+                <h5 class="card-title text-center">Add new And Update Work Details</h5>
+                <h5 class="card-title text-center"> <a href="/add_working_details"
+                        class="btn btn-primary text-dark">Add/Update</a></h5>
+            </div>
+        </div>
+
+        <div class="card me-5">
+            <img src="images/Admin_Image/Employee.png" class="mt-2 mx-auto d-block" width="50%" alt="...">
+            <div class="card-body">
+                <h5 class="card-title text-center">Add Employees in Organisation</h5>
+                <h5 class="card-title text-center"> <a href="/registration_worker"
+                        class="btn btn-primary text-dark">Add</a></h5>
+            </div>
+        </div>
+    </div>
+</div>

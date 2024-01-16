@@ -1,0 +1,83 @@
+
+{{>navbar}}
+<div class="main-container mt-5">
+    <div class="input-group">
+        <a href="/worker_details" class="btn btn-primary text-dark">&laquo; Back to Emloyees</a>
+    </div>
+</div>
+<div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="row d-flex justify-content-center">
+            <div class="col-xl-6 col-md-12">
+                <div class="user-card-full">
+                    <div class="row m-l-0 m-r-0">
+                        <div class="col-sm-5 bg-c-lite-green user-profile">
+                            <div class="card-block text-center text-white">
+                                <div class="m-b-25">
+                                    <img src="/uploads/{{worker_profile.image}}" class="workerimage"
+                                        alt="User-Profile-Image">
+                                </div>
+                                <h3 class="f-w-600 text-dark">{{worker_profile.first_name}} {{worker_profile.last_name}}</h3>
+                                <h5 class="text-dark">{{worker_profile.service}}</h5>
+                                <h6 class="text-dark">{{worker_profile.description}}</h6>
+                                <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="card-block">
+                                <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h6>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <p class="m-b-10 f-w-600">Gender</p>
+                                        <h6 class="text-muted f-w-400">{{worker_profile.gender}}</h6>
+                                    </div>
+
+                                    <div class="col-sm-7">
+                                        <p class="m-b-10 f-w-600">Email</p>
+                                        <h6 class="text-muted f-w-400">{{worker_profile.email}}</h6>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <p class="m-b-10 f-w-600">Phone</p>
+                                        <h6 class="text-muted f-w-400">{{worker_profile.phone_number}}</h6>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <p class="m-b-10 f-w-600">City</p>
+                                        <h6 class="text-muted f-w-400">{{worker_profile.city}}</h6>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <p class="m-b-10 f-w-600">Post code</p>
+                                        <h6 class="text-muted f-w-400">{{worker_profile.post_code}}</h6>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <p class="m-b-10 f-w-600">State</p>
+                                        <h6 class="text-muted f-w-400">{{worker_profile.state}}</h6>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <p class="m-b-10 f-w-600">Country</p>
+                                        <h6 class="text-muted f-w-400">{{worker_profile.country}}</h6>
+                                    </div>
+
+                                    <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Projects and Charges</h6>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <p class="m-b-10 f-w-600">Charge</p>
+                                            <h6 class="text-muted f-w-400">{{worker_profile.charge}}</h6>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <p class="m-b-10 f-w-600">Task completed</p>
+                                            <h6 class="text-muted f-w-400">{{worker_profile.task_completed}}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
