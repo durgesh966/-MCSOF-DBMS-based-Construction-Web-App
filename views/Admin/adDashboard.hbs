@@ -2,7 +2,7 @@
 {{#each admin_data}}
 <div class="main-container mt-5">
     <h2>Admin Panel</h2>
-    <h1 class="text-center anim">WelCome Mr. {{this.first_name}} {{this.last_name}} </h1>
+    <h1 class="text-center anim">WelCome Miss. {{this.first_name}} {{this.last_name}} </h1>
     <p class="description sub--main-title">Here you can make changes and add new users and services</p>
 </div>
 {{/each}}
@@ -15,8 +15,8 @@
             <img src="images/Admin_Image/Booking.png" class="mx-auto d-block" width="50%" alt="...">
             <div class="card-body">
                 <h5 class="card-title text-center">All Booking Data</h5>
-                <h5 class="card-title text-center"> <a href="/booking_work_data"
-                        class="btn btn-primary text-dark">All Bookings</a></h5>
+                <h5 class="card-title text-center"> <a href="/booking_work_data" class="btn btn-primary text-dark">All
+                        Bookings</a></h5>
             </div>
         </div>
 
@@ -42,7 +42,7 @@
 </div>
 
 <div class="main-container mt-5 mb-5">
-     <h3 class="mb-5 mt-5">Here you can Add and Update The Data</h3>
+    <h3 class="mb-5 mt-5">Here you can Add and Update The Data</h3>
     <div class="card-group">
         <div class="card me-5">
             <img src="images/Admin_Image/Service.png" class="mx-auto d-block" width="50%" alt="...">
@@ -72,3 +72,10 @@
         </div>
     </div>
 </div>
+
+
+{{#if messages.success}}
+    <div class="alert alert-success">
+        {{messages.success}}
+    </div>
+{{/if}}
