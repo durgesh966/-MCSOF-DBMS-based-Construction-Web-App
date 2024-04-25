@@ -42,35 +42,66 @@ app.use(express.urlencoded({ extended: false }));
 //for using public folder file 
 const publicFolder = path.join(__dirname, 'public');
 app.use(express.static(publicFolder));
-app.set('view engine', 'hbs'); // Fixed typo
+app.set('view engine', 'hbs');
 
 // use multer methods
 app.use('/uploads', express.static('uploads'));
+
 //template engine
-app.engine('hbs', exphbs.engine({ // Removed unnecessary extension
+app.engine('hbs', exphbs.engine({
     extname: 'hbs',
     defaultLayout: 'main',
     layoutsDir: path.join(__dirname, 'views/layouts')
 }));
 
 // route
-const { loginPage, signupPage, adminDashboard, adminSignup, adminLogin } = require('./src/routes/admin/adminRoute')
+const {
+    loginPage,
+    signupPage,
+    adminDashboard,
+    adminSignup,
+    adminLogin,
+    bookWorkData,
+    bookedWorkFullData,
+    deleteBookData,
+    showAllContacts,
+    searchContact,
+    deleteContacts,
+    newEmployeeApplyData,
+    newEmployeeApplyFullData,
+    deleteEmployeeApplyData,
+    addServices,
+    uploadNewServices,
+    addAndUpdateWork,
+    addAndUpdateWorkData,
+    ragisterWorkerGet,
+    ragisterWorkerPost
+} = require('./src/routes/admin/adminRoute');
+
+// Route paths
 app.get("/", loginPage);
 app.get("/adSignup", signupPage);
 app.get("/adDashboard", adminDashboard);
+app.get("/booking_work_data", bookWorkData);
+app.get("/booking_work_full_data/:id", bookedWorkFullData);
+app.get("/show_all_contacts", showAllContacts);
+app.get("/show_search_contact", searchContact);
+app.get("/new_employee_details", newEmployeeApplyData);
+app.get("/new_employee_details/:id", newEmployeeApplyFullData);
+app.get("/add-services", addServices);
+app.get("/add_working_details", addAndUpdateWork);
+app.get("/registration_worker", ragisterWorkerGet);
 
-// post
+// Post routes
 app.post("/adSignup", adminSignup);
 app.post("/login", adminLogin);
-
-// app.use('/', require('./routes/AdminRoute/addService'));
-// app.use('/', require('./routes/AdminRoute/adminRoute'));
-// app.use('/', require('./routes/AdminRoute/bookingData'));
-// app.use('/', require('./routes/AdminRoute/addNewEmloyee'));
-// app.use('/', require('./routes/AdminRoute/ShowContactUs'));
-// app.use('/', require('./routes/AdminRoute/addWorkProgress'));
-// app.use('/', require('./routes/AdminRoute/Show_new_Worker_application'));
+app.post("/delete_booked_data/:id", deleteBookData);
+app.post("/delete/:id", deleteContacts);
+app.post("/delete_records/:id", deleteEmployeeApplyData);
+app.post("/add-services", uploadNewServices);
+app.post("/add_working_details", addAndUpdateWorkData);
+app.post("/registration_worker", ragisterWorkerPost);
 
 app.listen(port, () => {
-    console.log(`server listening on port ${port}`.bgGreen.black.bold);
+    console.log(`Server listening on port ${port}`.bgGreen.black.bold);
 });
