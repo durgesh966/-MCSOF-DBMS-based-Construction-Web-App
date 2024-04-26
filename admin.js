@@ -74,8 +74,8 @@ const {
     uploadNewServices,
     addAndUpdateWork,
     addAndUpdateWorkData,
-    ragisterWorkerGet,
-    ragisterWorkerPost
+    registerWorker,
+    ragisterWorkerFormSubbmit
 } = require('./src/routes/admin/adminRoute');
 
 // Route paths
@@ -83,24 +83,24 @@ app.get("/", loginPage);
 app.get("/adSignup", signupPage);
 app.get("/adDashboard", adminDashboard);
 app.get("/booking_work_data", bookWorkData);
-app.get("/booking_work_full_data/:id", bookedWorkFullData);
+app.get("/booking_work_full_data:id", bookedWorkFullData);
 app.get("/show_all_contacts", showAllContacts);
 app.get("/show_search_contact", searchContact);
 app.get("/new_employee_details", newEmployeeApplyData);
-app.get("/new_employee_details/:id", newEmployeeApplyFullData);
+app.get("/new_employee_details:id", newEmployeeApplyFullData);
 app.get("/add-services", addServices);
 app.get("/add_working_details", addAndUpdateWork);
-app.get("/registration_worker", ragisterWorkerGet);
+app.get("/registration_worker", registerWorker);
 
 // Post routes
 app.post("/adSignup", adminSignup);
-app.post("/login", adminLogin);
-app.post("/delete_booked_data/:id", deleteBookData);
-app.post("/delete/:id", deleteContacts);
-app.post("/delete_records/:id", deleteEmployeeApplyData);
+app.post("/", adminLogin);
+app.post("/delete_booked_data:id", deleteBookData);
+app.post("/delete:id", deleteContacts);
+app.post("/delete_records:id", deleteEmployeeApplyData);
 app.post("/add-services", uploadNewServices);
 app.post("/add_working_details", addAndUpdateWorkData);
-app.post("/registration_worker", ragisterWorkerPost);
+app.post("/registration_worker", ragisterWorkerFormSubbmit);
 
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`.bgGreen.black.bold);

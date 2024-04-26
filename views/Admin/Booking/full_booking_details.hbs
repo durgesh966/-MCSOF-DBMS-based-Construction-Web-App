@@ -3,7 +3,7 @@
     <div class="input-group">
         <a href="/booking_work_data" class="btn btn-primary text-dark me-5">&laquo; Back</a>
 
-        <form id="deleteForm" action="/delete_booked_data/{{booking_full_data._id}}" method="POST" class="d-inline">
+        <form id="deleteForm" action="/delete_booked_data{{booking_full_data._id}}" method="POST" class="d-inline">
             <button class="btn btn-danger px-3" onclick="confirm_Delete()" type="button">
                 <i class="fas fa-times"></i> Delete record
             </button>
