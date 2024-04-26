@@ -7,8 +7,6 @@
     <div class="register mt-5">
         <form class="login-form" method="post" action="/update_working_details">
             <h2 class="text-center">Update Details</h2>
-            <!-- CSRF Token -->
-            <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
             <!-- Hidden input for document ID -->
             <input type="hidden" class="form-control" name="docID" value="{{ this._id }}" readonly />
@@ -56,8 +54,6 @@
     <div class="register mt-5">
         <form class="login-form" method="post" action="/add_working_details">
             <h2 class="text-center">New Details</h2>
-            <!-- CSRF Token -->
-            <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
             <!-- Add New Task Input -->
             <div class="form-outline mb-4">

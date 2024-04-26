@@ -12,15 +12,13 @@ require('./DB/connection/connection');
 const bodyParser = require('body-parser');
 const port = process.env.ADMIN_PORT || 9000;
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
 // MongoDB for session storage
 const mongoStoreOptions = {
     mongoUrl: process.env.MONGO_URL,
     collection: 'sessions',
 };
 
+// Set up session middleware
 const sessionMiddleware = session({
     secret: 'your-secret-key',
     resave: true,
@@ -28,33 +26,26 @@ const sessionMiddleware = session({
     store: MongoStore.create(mongoStoreOptions),
     cookie: { maxAge: 600000 },
 });
-
-// Set up session middleware
 app.use(sessionMiddleware);
 
 // Initialize connect-flash middleware
 app.use(flash());
 
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+// Body parsing middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-//for using public folder file 
-const publicFolder = path.join(__dirname, 'public');
-app.use(express.static(publicFolder));
+app.use(cors());
+app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'hbs');
 
-// use multer methods
-app.use('/uploads', express.static('uploads'));
-
-//template engine
 app.engine('hbs', exphbs.engine({
     extname: 'hbs',
     defaultLayout: 'main',
     layoutsDir: path.join(__dirname, 'views/layouts')
 }));
 
-// route
+// Route paths
 const {
     loginPage,
     signupPage,
@@ -79,7 +70,6 @@ const {
     registerWorkerFormSubmit
 } = require('./src/routes/admin/adminRoute');
 
-// Route paths
 app.get("/", loginPage);
 app.get("/adSignup", signupPage);
 app.get("/adDashboard", adminDashboard);

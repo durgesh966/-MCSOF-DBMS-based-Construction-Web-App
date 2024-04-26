@@ -1,4 +1,5 @@
 const multer = require('multer');
+const csrf = require('csurf');
 const bcrypt = require('bcrypt');
 const debug = require('debug')('app:admin');
 
@@ -227,35 +228,31 @@ const uploadNewServices = async (req, res) => {
 
 // Add and update work details routes
 
-const showWorkData= async (req, res) => {
+const showWorkData = async (req, res) => {
     try {
-        const show_work_details = await WorkDetails.find().lean();
-        res.render('./Admin/service/add_Work_Details', { show_work_details });
+        const show_Work_details = await WorkDetails.find().lean();
+        res.render('./Admin/service/add_Work_Details', { show_Work_details });
     } catch (error) {
         handleError(error, req, res, 'Failed to fetch work details');
     }
 };
 
-
 const addWorkData = async (req, res) => {
     try {
-            const { new_task, task_completed, team_members, customers } = req.body;
-            if (!new_task || !task_completed || !team_members || !customers) {
-                return res.send("fill all input field");
-            }
-            const newWorkDetails = await WorkDetails.create({
-                new_task,
-                task_completed,
-                team_members,
-                customers
-            });
-            console.log('New work details created:', newWorkDetails);
-            return res.redirect('/add_working_details');
+        const { new_task, task_completed, team_members, customers } = req.body;
+        await WorkDetails.create({
+            new_task,
+            task_completed,
+            team_members,
+            customers
+        });
+        res.redirect('/success');
     } catch (error) {
-        console.error('Error adding or add work details:', error);
-        return res.redirect('/add_working_details');
+        console.error('Failed to add working details:', error);
+        res.status(500).send('Failed to add working details');
     }
 };
+
 
 const updateWorkData = async (req, res) => {
     try {
