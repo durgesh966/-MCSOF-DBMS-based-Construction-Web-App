@@ -1,5 +1,5 @@
 {{>adminNavbar}}
-{{#if all_contect.length}}
+{{#if all_contacts.length}}
 <div class="main-container mt-5">
     <form class="form-inline me-3 custom-bg" action="/show_search_contact" method="GET">
         <div class="input-group">
@@ -28,7 +28,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{#each all_contect}}
+                                        {{#each all_contacts}}
                                         <tr>
                                             <td style="width: 150px;">{{this.full_name}}</td>
                                             <td style="width: 150px;">{{this.phone_number}}</td>

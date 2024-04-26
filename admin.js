@@ -72,10 +72,11 @@ const {
     deleteEmployeeApplyData,
     addServices,
     uploadNewServices,
-    addAndUpdateWork,
-    addAndUpdateWorkData,
+    showWorkData,
+    addWorkData,
+    updateWorkData,
     registerWorker,
-    ragisterWorkerFormSubbmit
+    registerWorkerFormSubmit
 } = require('./src/routes/admin/adminRoute');
 
 // Route paths
@@ -89,18 +90,19 @@ app.get("/show_search_contact", searchContact);
 app.get("/new_employee_details", newEmployeeApplyData);
 app.get("/new_employee_details:id", newEmployeeApplyFullData);
 app.get("/add-services", addServices);
-app.get("/add_working_details", addAndUpdateWork);
+app.get("/add_working_details", showWorkData);
 app.get("/registration_worker", registerWorker);
 
 // Post routes
 app.post("/adSignup", adminSignup);
 app.post("/", adminLogin);
 app.post("/delete_booked_data:id", deleteBookData);
-app.post("/delete:id", deleteContacts);
-app.post("/delete_records:id", deleteEmployeeApplyData);
+app.post("/delete/:id", deleteContacts);
+app.post("/delete_records/:id", deleteEmployeeApplyData);
 app.post("/add-services", uploadNewServices);
-app.post("/add_working_details", addAndUpdateWorkData);
-app.post("/registration_worker", ragisterWorkerFormSubbmit);
+app.post("/add_working_details", addWorkData);
+app.post("/update_working_details", updateWorkData);
+app.post("/registration_worker", registerWorkerFormSubmit);
 
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`.bgGreen.black.bold);

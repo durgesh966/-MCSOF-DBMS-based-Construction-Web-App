@@ -1,29 +1,27 @@
-{{>adminNavbar}}
+{{> adminNavbar}}
 <div class="box mb-4">
     <div class="register mt-5">
-        <form class="login-form" action="/add-services" method="post" enctype="multipart/form-data" id="addService">
+        <form class="login-form" action="/add-services" method="post" id="addService" enctype="multipart/form-data">
             <!-- Name input -->
             <div class="form-outline mb-4">
                 <label class="form-label mb-2" for="form4Example1">Title</label>
                 <input type="text" id="form4Example1" class="form-control" name="titlename" />
             </div>
 
-            <!-- Email input -->
+            <!-- Image input -->
             <div class="form-outline mb-4">
                 <label class="form-label mb-2" for="form4Example2">Choose image</label>
                 <input class="form-control" type="file" id="form4Example2" name="image">
             </div>
 
-
-            <!-- Message input -->
+            <!-- Description input -->
             <div class="form-outline mb-4">
                 <label class="form-label mb-2" for="form4Example3">Give description</label>
                 <textarea class="form-control" id="form4Example3" name="description" rows="10"></textarea>
             </div>
 
             <!-- Submit button -->
-            <input type="button" class="btn btn-primary btn-block mb-4 text-dark" value="Save"
-                onclick="addServiceDataForm()">
+            <input type="submit" class="btn btn-primary btn-block mb-4 text-dark" value="Save">
         </form>
     </div>
 </div>

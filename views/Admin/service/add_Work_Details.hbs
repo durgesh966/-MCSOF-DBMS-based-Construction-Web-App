@@ -1,75 +1,92 @@
-{{>adminNavbar}}
+{{> adminNavbar}}
+
 {{#if show_Work_details.length}}
 <!-- Render content when there are work details -->
 {{#each show_Work_details}}
 <div class="box mb-4">
     <div class="register mt-5">
-        <form class="login-form" method="post" id="addWork" enctype="multipart/form-data" action="/add_working_details">
+        <form class="login-form" method="post" action="/update_working_details">
             <h2 class="text-center">Update Details</h2>
-            <!-- Name input -->
-            <div class="form-outline mt-4 mb-4">
-                <input type="hidden" class="form-control" name="docID" value="{{ this._id }}" readonly />
+            <!-- CSRF Token -->
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+            <!-- Hidden input for document ID -->
+            <input type="hidden" class="form-control" name="docID" value="{{ this._id }}" readonly />
+
+            <!-- Update New Task Input -->
+            <div class="form-outline mb-4">
+                <label class="form-label mb-2" for="update_new_task{{ this._id }}">Update New Task In Numbers</label>
+                <input type="number" id="update_new_task{{ this._id }}" class="form-control" name="update_new_task"
+                    value="{{ this.new_task }}" required />
             </div>
 
+            <!-- Update Completed Task Input -->
             <div class="form-outline mb-4">
-                <label class="form-label mb-2" for="newTask">Update New Task In Numbers</label>
-                <input type="number" id="newTask" class="form-control" name="update_new_task" value="{{ this.new_task}}"
-                    required />
+                <label class="form-label mb-2" for="update_completed_task{{ this._id }}">Update Completed Task In
+                    Numbers</label>
+                <input type="number" id="update_completed_task{{ this._id }}" class="form-control"
+                    name="update_task_completed" value="{{ this.task_completed }}" required />
             </div>
 
+            <!-- Update Total Team Members Input -->
             <div class="form-outline mb-4">
-                <label class="form-label mb-2" for="completedTask">Update Completed Task In Numbers</label>
-                <input type="number" id="completedTask" class="form-control" name="update_task_completed"
-                    value="{{ this.task_completed }}" required />
+                <label class="form-label mb-2" for="update_team_members{{ this._id }}">Update Total Team Members In
+                    Numbers</label>
+                <input type="number" id="update_team_members{{ this._id }}" class="form-control"
+                    name="update_team_members" value="{{ this.team_members }}" required />
             </div>
 
+            <!-- Update Total Customers Input -->
             <div class="form-outline mb-4">
-                <label class="form-label mb-2" for="teamMembers">Update Total Team Members In Numbers</label>
-                <input type="number" id="teamMembers" class="form-control" name="update_team_members"
-                    value="{{ this.team_members }}" required />
-            </div>
-
-            <div class="form-outline mb-4">
-                <label class="form-label mb-2" for="totalCustomers">Update Total Customers in numbers</label>
-                <input type="number" id="totalCustomers" class="form-control" name="update_customers"
+                <label class="form-label mb-2" for="update_customers{{ this._id }}">Update Total Customers in
+                    numbers</label>
+                <input type="number" id="update_customers{{ this._id }}" class="form-control" name="update_customers"
                     value="{{ this.customers }}" required />
             </div>
 
             <!-- Submit button -->
-            <input type="button" class="btn btn-primary btn-block mb-4 text-dark" value="Update" onclick="addWorkDetails()">
+            <input type="submit" class="btn btn-primary btn-block mb-4 text-dark" value="Update">
         </form>
+
     </div>
 </div>
 {{/each}}
 {{else}}
 <div class="box mb-4">
     <div class="register mt-5">
-        <form class="login-form" method="post" id="addWork" enctype="multipart/form-data" action="/add_working_details" >
+        <form class="login-form" method="post" action="/add_working_details">
             <h2 class="text-center">New Details</h2>
-            <!-- Name input -->
+            <!-- CSRF Token -->
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+            <!-- Add New Task Input -->
             <div class="form-outline mb-4">
-                <label class="form-label mb-2" for="newTask">Add New Task In Numbers</label>
-                <input type="number" id="newTask" class="form-control" name="new_task" required />
+                <label class="form-label mb-2" for="new_task">Add New Task In Numbers</label>
+                <input type="number" id="new_task" class="form-control" name="new_task" required />
             </div>
 
+            <!-- Add New Completed Task Input -->
             <div class="form-outline mb-4">
-                <label class="form-label mb-2" for="completedTask">Add New Completed Task In Numbers</label>
-                <input type="number" id="completedTask" class="form-control" name="task_completed" required />
+                <label class="form-label mb-2" for="task_completed">Add New Completed Task In Numbers</label>
+                <input type="number" id="task_completed" class="form-control" name="task_completed" required />
             </div>
 
+            <!-- Add Total Team Members Input -->
             <div class="form-outline mb-4">
-                <label class="form-label mb-2" for="teamMembers">Add Total Team Members In Numbers</label>
-                <input type="number" id="teamMembers" class="form-control" name="team_members" required />
+                <label class="form-label mb-2" for="team_members">Add Total Team Members In Numbers</label>
+                <input type="number" id="team_members" class="form-control" name="team_members" required />
             </div>
 
+            <!-- Add Total Customers Input -->
             <div class="form-outline mb-4">
-                <label class="form-label mb-2" for="totalCustomers">Add Total Customers in numbers</label>
-                <input type="number" id="totalCustomers" class="form-control" name="customers" required />
+                <label class="form-label mb-2" for="customers">Add Total Customers in numbers</label>
+                <input type="number" id="customers" class="form-control" name="customers" required />
             </div>
 
             <!-- Submit button -->
-            <input type="button" class="btn btn-primary btn-block mb-4 text-dark" value="Submit" onclick="addWorkDetails()">
+            <input type="submit" class="btn btn-primary btn-block mb-4 text-dark" value="Submit">
         </form>
+
     </div>
 </div>
 {{/if}}

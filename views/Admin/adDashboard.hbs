@@ -1,21 +1,17 @@
 {{>adminNavbar}}
 
 {{#if message}}
-<div id="flash-message"
-    class="alert alert-info alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x" role="alert">
-    {{message}}
-</div>
-{{/if}}
-{{#if errorMessage}}
-<div id="flash-message" class="alert alert-danger mt-5" role="alert">
-    {{errorMessage}}
-</div>
-{{/if}}
-
-{{#if success}}
-<div id="flash-message" class="alert alert-success mt-5 position-fixed start-50 translate-middle-x" role="alert">
-    {{success}}
-</div>
+    <div id="flash-message" class="alert alert-info alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x" role="alert">
+        {{message}}
+    </div>
+{{else if error}}
+    <div id="flash-message" class="alert alert-danger mt-5" role="alert">
+        {{error}}
+    </div>
+{{else if success}}
+    <div id="flash-message" class="alert alert-success mt-5 position-fixed start-50 translate-middle-x" role="alert">
+        {{success}}
+    </div>
 {{/if}}
 
 

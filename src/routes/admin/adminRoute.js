@@ -1,15 +1,17 @@
-const flash = require('connect-flash');
+const multer = require('multer');
 const bcrypt = require('bcrypt');
+const debug = require('debug')('app:admin');
 
 const upload = require('../../controllers/multer');
+const { handleError } = require('../../middleware/error');
 
-const Admin = require("../../../DB/models/Admin");
-const Booking = require("../../../DB/models/Booking");
-const ContectUs = require("../../../DB/models/ContectUs");
-const NewJoiningApply = require("../../../DB/models/NewJoiningApply");
-const Service = require("../../../DB/models/Service");
-const WorkDetails = require("../../../DB/models/WorkDetails");
-const Worker = require("../../../DB/models/Worker");
+const Admin = require('../../../DB/models/Admin');
+const Booking = require('../../../DB/models/Booking');
+const ContectUs = require('../../../DB/models/ContectUs');
+const NewJoiningApply = require('../../../DB/models/NewJoiningApply');
+const Service = require('../../../DB/models/Service');
+const WorkDetails = require('../../../DB/models/WorkDetails');
+const Worker = require('../../../DB/models/Worker');
 
 // Login and logout routes
 
@@ -26,7 +28,8 @@ const adminDashboard = async (req, res) => {
         const admin_data = await Admin.find().lean();
         res.render('./Admin/adDashboard', { admin_data });
     } catch (err) {
-        console.error('Error fetching admin data:', err);
+        debug('Error fetching admin data:', err);
+        req.flash('error', 'Failed to fetch admin data');
         res.redirect('/');
     }
 };
@@ -46,7 +49,7 @@ const adminSignup = async (req, res) => {
         req.flash('success', 'Signup successful. Please log in.');
         res.redirect("/");
     } catch (error) {
-        console.error('Error during admin signup:', error);
+        debug('Error during admin signup:', error);
         req.flash('error', 'Error occurred during signup');
         res.redirect("/signup");
     }
@@ -55,27 +58,26 @@ const adminSignup = async (req, res) => {
 const adminLogin = async (req, res) => {
     try {
         const { email, password } = req.body;
-        console.log(password);
         const user = await Admin.findOne({ email });
         if (!user) {
             req.flash('error', 'User not found');
-            return res.redirect("/adSignup");
+            res.redirect("/adSignup");
+            return;
         }
         const match = await bcrypt.compare(password, user.password);
         if (match) {
-            req.flash('success', 'Login successful');
-            const success = req.flash("success")[0];
-            return res.redirect("/adDashboard", 302, { success });
+            res.redirect("/adDashboard?success=Login+successful");
         } else {
             req.flash('error', 'Incorrect password');
-            return res.redirect("/", 302);
+            res.redirect("/");
         }
     } catch (error) {
         console.error('Error during admin login:', error);
         req.flash('error', 'Error occurred during login');
-        return res.redirect("/", 302);
+        res.redirect("/", 500, { error: req.flash(error)[0] });
     }
 };
+
 
 // Booking data routes
 
@@ -85,9 +87,7 @@ const bookWorkData = async (req, res) => {
         req.flash('success', 'Successfully fetched booking data.');
         res.render('./Admin/Booking/showBooking', { booking, successMessage: req.flash('success')[0] });
     } catch (error) {
-        console.error('Error fetching booking data:', error);
-        req.flash('error', 'Failed to fetch booking data.');
-        res.status(404).send(error);
+        handleError(error, req, res, 'Failed to fetch booking data');
     }
 };
 
@@ -98,9 +98,7 @@ const bookedWorkFullData = async (req, res) => {
         req.flash('success', 'Successfully fetched full booking data.');
         res.render('./Admin/Booking/full_booking_details', { booking_full_data, successMessage: req.flash('success')[0] });
     } catch (error) {
-        console.error('Error fetching booked work full data:', error);
-        req.flash('error', 'Failed to fetch full booking data.');
-        res.status(404).send(error);
+        handleError(error, req, res, 'Failed to fetch full booking data');
     }
 };
 
@@ -115,9 +113,7 @@ const deleteBookData = async (req, res) => {
             res.status(404).json({ message: 'Booking not found' });
         }
     } catch (error) {
-        console.error('Error deleting booking data:', error);
-        req.flash('error', 'Error occurred while deleting booking data.');
-        res.status(500).json({ message: 'Internal Server Error' });
+        handleError(error, req, res, 'Error occurred while deleting booking data');
     }
 };
 
@@ -126,12 +122,9 @@ const deleteBookData = async (req, res) => {
 const showAllContacts = async (req, res) => {
     try {
         const all_contacts = await ContectUs.find().lean();
-        req.flash('success', 'Successfully fetched all contacts.');
-        res.render('./Admin/contact/showContact', { all_contacts, successMessage: req.flash('success')[0] });
+        res.render('./Admin/contact/showContact', { all_contacts });
     } catch (error) {
-        console.error('Error fetching all contacts:', error);
-        req.flash('error', 'Failed to fetch all contacts.');
-        res.status(404).json({ error });
+        handleError(error, req, res, 'Failed to fetch all contacts');
     }
 };
 
@@ -147,21 +140,16 @@ const searchContact = async (req, res) => {
         req.flash('success', 'Successfully searched contacts.');
         res.render('./Admin/contact/searchResult', { contacts, query, successMessage: req.flash('success')[0] });
     } catch (error) {
-        console.error('Error searching contacts:', error);
-        req.flash('error', 'Failed to search contacts.');
-        res.status(500).json({ error: 'Internal Server Error' });
+        handleError(error, req, res, 'Failed to search contacts');
     }
 };
 
 const deleteContacts = async (req, res) => {
     try {
         await ContectUs.findByIdAndDelete(req.params.id);
-        req.flash('success', 'Contact deleted successfully.');
         res.redirect('/show_all_contacts');
     } catch (error) {
-        console.error('Error deleting contacts:', error);
-        req.flash('error', 'Error occurred while deleting contacts.');
-        res.status(500).json({ error: error.message });
+        handleError(error, req, res, 'Error occurred while deleting contacts');
     }
 };
 
@@ -170,37 +158,28 @@ const deleteContacts = async (req, res) => {
 const newEmployeeApplyData = async (req, res) => {
     try {
         const new_employee_data = await NewJoiningApply.find().lean();
-        req.flash('success', 'Successfully fetched new employee application data.');
-        res.render('./Admin/newEmployeeApplication/newEmployee', { new_employee_data, successMessage: req.flash('success')[0] });
+        res.render('./Admin/newEmployeeApplication/newEmployee', { new_employee_data });
     } catch (error) {
-        console.error('Error fetching new employee application data:', error);
-        req.flash('error', 'Failed to fetch new employee application data.');
-        res.status(500).json({ error });
+        handleError(error, req, res, 'Failed to fetch new employee application data');
     }
 };
 
 const newEmployeeApplyFullData = async (req, res) => {
     try {
-        const new_employee_full_data = await NewJoiningApply.findById(req.params.id).lean();
-        req.flash('success', 'Successfully fetched full new employee data.');
-        const viewRelativePath = 'Admin/newEmployeeApplication/newEmployee_full_Profile';
-        res.render(viewRelativePath, { new_employee_full_data, successMessage: req.flash('success')[0] });
+        const new_Employee_full_data = await NewJoiningApply.findById(req.params.id).lean();
+        res.render('./Admin/newEmployeeApplication/newEmployee_full_Profile', { new_Employee_full_data });
     } catch (error) {
-        console.error('Error fetching new employee full data:', error);
-        req.flash('error', 'Failed to fetch full new employee data.');
-        res.status(500).json({ error });
+        handleError(error, req, res, 'Failed to fetch full new employee data');
     }
 };
 
 const deleteEmployeeApplyData = async (req, res) => {
     try {
         await NewJoiningApply.findByIdAndDelete(req.params.id);
-        req.flash('success', 'New employee application data deleted successfully.');
+        console.log(NewJoiningApply);
         res.redirect('/new_employee_details');
     } catch (error) {
-        console.error('Error deleting new employee application data:', error);
-        req.flash('error', 'Error occurred while deleting new employee application data.');
-        res.status(500).json({ error: 'Internal Server Error' });
+        handleError(error, req, res, 'Error occurred while deleting new employee application data');
     }
 };
 
@@ -214,17 +193,18 @@ const uploadNewServices = async (req, res) => {
     try {
         upload.single('image')(req, res, async (err) => {
             if (err instanceof multer.MulterError) {
-                console.error('Multer Error:', err);
+                debug('Multer Error:', err);
                 req.flash('error', 'Multer Error.');
                 return res.redirect('/add-services');
             } else if (err) {
-                console.error('Unknown Error:', err);
+                debug('Unknown Error:', err);
                 req.flash('error', 'Unknown Error.');
                 return res.redirect('/add-services');
             }
             const { titlename, description } = req.body;
             const image = req.file ? req.file.filename : null;
-            console.log(titlename, description, image);
+            console.log(image);
+            debug(titlename, description, image);
             await Service.create({
                 titlename,
                 description,
@@ -235,7 +215,6 @@ const uploadNewServices = async (req, res) => {
         });
     } catch (error) {
         let errorMessage = 'Internal Server Error. Please fill in all input fields.';
-
         if (error.name === 'ValidationError') {
             errorMessage = 'Validation Error. Please check your input data.';
         } else if (error.code === 11000) {
@@ -246,29 +225,44 @@ const uploadNewServices = async (req, res) => {
     }
 };
 
-
 // Add and update work details routes
 
-const addAndUpdateWork = async (req, res) => {
+const showWorkData= async (req, res) => {
     try {
         const show_work_details = await WorkDetails.find().lean();
-        req.flash('success', 'Successfully fetched work details.');
-        res.render('./Admin/service/add_Work_Details', { show_work_details, successMessage: req.flash('success')[0] });
+        res.render('./Admin/service/add_Work_Details', { show_work_details });
     } catch (error) {
-        console.error('Error fetching work details:', error);
-        req.flash('error', 'Failed to fetch work details.');
-        res.status(500).json({ error });
+        handleError(error, req, res, 'Failed to fetch work details');
     }
 };
 
-const addAndUpdateWorkData = async (req, res) => {
+
+const addWorkData = async (req, res) => {
+    try {
+            const { new_task, task_completed, team_members, customers } = req.body;
+            if (!new_task || !task_completed || !team_members || !customers) {
+                return res.send("fill all input field");
+            }
+            const newWorkDetails = await WorkDetails.create({
+                new_task,
+                task_completed,
+                team_members,
+                customers
+            });
+            console.log('New work details created:', newWorkDetails);
+            return res.redirect('/add_working_details');
+    } catch (error) {
+        console.error('Error adding or add work details:', error);
+        return res.redirect('/add_working_details');
+    }
+};
+
+const updateWorkData = async (req, res) => {
     try {
         const { docID, update_new_task, update_task_completed, update_team_members, update_customers } = req.body;
-        if (docID) {
-            if (!docID || !update_new_task || !update_task_completed || !update_team_members || !update_customers) {
-                req.flash('error', 'Update Data not found.');
+            if (!update_new_task || !update_task_completed || !update_team_members || !update_customers) {
                 return res.redirect('/add_working_details');
-            };
+            }
             const updateData = {
                 new_task: update_new_task,
                 task_completed: update_task_completed,
@@ -277,38 +271,15 @@ const addAndUpdateWorkData = async (req, res) => {
             };
             const updatedWorkDetails = await WorkDetails.findByIdAndUpdate(docID, updateData, { new: true });
             if (!updatedWorkDetails) {
-                req.flash('error', 'Work Data not found.');
                 return res.redirect('/add_working_details');
             }
-            req.flash('success', 'Work Data updated successfully.');
             return res.redirect('/add_working_details');
-        } else {
-            const { new_task, task_completed, team_members, customers } = req.body;
-            if (!new_task || !task_completed || !team_members || !customers) {
-                req.flash('error', 'Data not found.');
-                return res.redirect('/add_working_details');
-            };
-            await WorkDetails.create({
-                new_task,
-                task_completed,
-                team_members,
-                customers
-            });
-            req.flash('success', 'Work Data added successfully.');
-            return res.redirect('/add_working_details');
-        }
     } catch (error) {
-        let errorMessage = 'Internal Server Error. Please fill in all input fields.';
-
-        if (error.name === 'ValidationError') {
-            errorMessage = 'Validation Error. Please check your input data.';
-        } else if (error.code === 11000) {
-            errorMessage = 'Duplicate entry. The provided email or phone number is already registered.';
-        }
-        req.flash('error', errorMessage);
-        return res.redirect('/add_working_details');
+        console.error('Error adding or updating work details:', error);
+        return res.redirect('/adDashboard');
     }
 };
+
 
 // Add employee routes
 
@@ -316,28 +287,37 @@ const registerWorker = (req, res) => {
     res.render('./Admin/addEmployee/registration_worker');
 };
 
-const ragisterWorkerFormSubbmit = async (req, res) => {
+const registerWorkerFormSubmit = async (req, res) => {
     try {
-        const { first_name, last_name, gender, email, phone_number, country, state, city, post_code, service, description, charge, task_completed } = req.body;
-        const image = req.file ? req.file.filename : null;
-        await Worker.create({
-            image,
-            first_name,
-            last_name,
-            gender,
-            email,
-            phone_number,
-            country,
-            state,
-            city,
-            post_code,
-            service,
-            description,
-            charge,
-            task_completed
+        upload.single('image')(req, res, async function (err) {
+            if (err instanceof multer.MulterError) {
+                throw new Error('File upload error: ' + err.message);
+            } else if (err) {
+                throw err;
+            }
+
+            const { first_name, last_name, gender, email, phone_number, country, state, city, post_code, service, description, charge, task_completed } = req.body;
+            const image = req.file ? req.file.filename : null;
+
+            await Worker.create({
+                image,
+                first_name,
+                last_name,
+                gender,
+                email,
+                phone_number,
+                country,
+                state,
+                city,
+                post_code,
+                service,
+                description,
+                charge,
+                task_completed
+            });
+            req.flash('success', 'Employee added successfully.');
+            return res.redirect('/registration_worker');
         });
-        req.flash('success', 'Employee added successfully.');
-        return res.redirect('/registration_worker');
     } catch (error) {
         let errorMessage = 'Internal Server Error. Please fill in all input fields.';
         if (error.name === 'ValidationError') {
@@ -368,8 +348,9 @@ module.exports = {
     deleteEmployeeApplyData,
     addServices,
     uploadNewServices,
-    addAndUpdateWork,
-    addAndUpdateWorkData,
+    showWorkData,
+    addWorkData,
+    updateWorkData,
     registerWorker,
-    ragisterWorkerFormSubbmit
+    registerWorkerFormSubmit
 };

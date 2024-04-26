@@ -1,9 +1,9 @@
-{{>adminNavbar}}
-{{#if new_Employee_data.length}}
+{{> adminNavbar}}
+{{#if new_employee_data.length}}
 <div class="container mt-5">
     <h2 class="text-center">New Employee Application Form</h2>
     <div class="row mt-5 mb-5">
-        {{#each new_Employee_data}}
+        {{#each new_employee_data}}
         <div class="col-lg-4 mb-4">
             <div class="card text-center">
                 <div class="member-card pt-3 pb-3">
@@ -12,8 +12,7 @@
                         <p class="text-muted">Application for {{this.apply_position}}</p>
                     </div>
                     <a href="/new_employee_details{{this._id}}" type="button"
-                        class="btn btn-primary text-dark mt-3">View
-                        Profile</a>
+                        class="btn btn-primary text-dark mt-3">View Profile</a>
                 </div>
             </div>
         </div>
