@@ -17,27 +17,49 @@ const Worker = require('../../../DB/models/Worker');
 // Login and logout routes
 
 const loginPage = (req, res) => {
-    res.render('./Admin/adLogin');
+    res.render('./Admin/adLogin', {
+        message: req.query.message,
+        error: req.query.error,
+        success: req.query.success
+    });
 };
 
 const signupPage = (req, res) => {
-    res.render('./Admin/adSignup');
+    res.render('./Admin/adSignup', {
+        message: req.query.message,
+        error: req.query.error,
+        success: req.query.success
+    });
 };
 
 const adminDashboard = async (req, res) => {
     try {
         const admin_data = await Admin.find().lean();
-        res.render('./Admin/adDashboard', { admin_data });
+        res.render('./Admin/adDashboard', {
+            admin_data,
+            message: req.query.message,
+            error: req.query.error,
+            success: req.query.success
+        });
     } catch (err) {
         debug('Error fetching admin data:', err);
-        req.flash('error', 'Failed to fetch admin data');
-        res.redirect('/');
     }
 };
 
 const adminSignup = async (req, res) => {
     try {
         const { first_name, last_name, email, password, phone_number } = req.body;
+        if (!first_name || !last_name || !email || !password || !phone_number) {
+            return res.status(400).redirect("/adSignup?error=please+fill+all+input+fields");
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return res.status(400).redirect("/adSignup?error=invalid+email+format");
+        }
+        const phoneRegex = /^[0-9]{10}$/;
+        if (!phoneRegex.test(phone_number)) {
+            return res.status(400).redirect("/adSignup?error=invalid+phone+number+format");
+        }
         const hashedPassword = await bcrypt.hash(password, 10);
         const newAdmin = new Admin({
             first_name,
@@ -47,35 +69,32 @@ const adminSignup = async (req, res) => {
             password: hashedPassword,
         });
         await newAdmin.save();
-        req.flash('success', 'Signup successful. Please log in.');
-        res.redirect("/");
+        return res.status(200).redirect("/?success=User+Registered+Successfully.+Please+Login");
     } catch (error) {
         debug('Error during admin signup:', error);
-        req.flash('error', 'Error occurred during signup');
-        res.redirect("/signup");
+        return res.status(500).redirect("/adSignup?error=internal+server+error");
     }
 };
 
 const adminLogin = async (req, res) => {
     try {
         const { email, password } = req.body;
+        if (!email || !password) {
+            return res.status(400).redirect("/?error=Email+and+password+are+required");
+        }
         const user = await Admin.findOne({ email });
         if (!user) {
-            req.flash('error', 'User not found');
-            res.redirect("/adSignup");
-            return;
+            return res.status(404).redirect("/adSignup?error=Admin+not+found+please+register+new+admin");
         }
         const match = await bcrypt.compare(password, user.password);
         if (match) {
-            res.redirect("/adDashboard?success=Login+successful");
+            return res.status(200).redirect("/adDashboard?success=Login+successful");
         } else {
-            req.flash('error', 'Incorrect password');
-            res.redirect("/");
+            return res.status(401).redirect("/?error=Incorrect+username+or+password");
         }
     } catch (error) {
-        console.error('Error during admin login:', error);
-        req.flash('error', 'Error occurred during login');
-        res.redirect("/", 500, { error: req.flash(error)[0] });
+        debug('Error during admin login:', error);
+        return res.status(500).redirect("/?error=Error+occurred+during+login");
     }
 };
 
@@ -257,20 +276,20 @@ const addWorkData = async (req, res) => {
 const updateWorkData = async (req, res) => {
     try {
         const { docID, update_new_task, update_task_completed, update_team_members, update_customers } = req.body;
-            if (!update_new_task || !update_task_completed || !update_team_members || !update_customers) {
-                return res.redirect('/add_working_details');
-            }
-            const updateData = {
-                new_task: update_new_task,
-                task_completed: update_task_completed,
-                team_members: update_team_members,
-                customers: update_customers
-            };
-            const updatedWorkDetails = await WorkDetails.findByIdAndUpdate(docID, updateData, { new: true });
-            if (!updatedWorkDetails) {
-                return res.redirect('/add_working_details');
-            }
+        if (!update_new_task || !update_task_completed || !update_team_members || !update_customers) {
             return res.redirect('/add_working_details');
+        }
+        const updateData = {
+            new_task: update_new_task,
+            task_completed: update_task_completed,
+            team_members: update_team_members,
+            customers: update_customers
+        };
+        const updatedWorkDetails = await WorkDetails.findByIdAndUpdate(docID, updateData, { new: true });
+        if (!updatedWorkDetails) {
+            return res.redirect('/add_working_details');
+        }
+        return res.redirect('/add_working_details');
     } catch (error) {
         console.error('Error adding or updating work details:', error);
         return res.redirect('/adDashboard');
@@ -281,7 +300,11 @@ const updateWorkData = async (req, res) => {
 // Add employee routes
 
 const registerWorker = (req, res) => {
-    res.render('./Admin/addEmployee/registration_worker');
+    res.render('./Admin/addEmployee/registration_worker', {
+        message: req.query.message,
+        error: req.query.error,
+        successMessage: req.query.successMessage
+    });
 };
 
 const registerWorkerFormSubmit = async (req, res) => {
@@ -312,8 +335,8 @@ const registerWorkerFormSubmit = async (req, res) => {
                 charge,
                 task_completed
             });
-            req.flash('success', 'Employee added successfully.');
-            return res.redirect('/registration_worker');
+            const successMessage = 'Form submitted successfully!';
+            return res.redirect(`/registration_worker=${encodeURIComponent(successMessage)}`);
         });
     } catch (error) {
         let errorMessage = 'Internal Server Error. Please fill in all input fields.';
