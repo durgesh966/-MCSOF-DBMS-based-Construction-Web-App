@@ -25,12 +25,12 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // for blank input field warning 
-document.getElementById('loginForm').addEventListener('submit', function(event) {
-    const email = document.getElementById('user_email').value;
-    const password = document.getElementById('user_password').value;
-    if (!email.trim() || !password.trim()) {
-        alert('Email and password are required.');
-        event.preventDefault();
-    }
-});
+// document.getElementById('loginForm').addEventListener('submit', function(event) {
+//     const email = document.getElementById('user_email').value;
+//     const password = document.getElementById('user_password').value;
+//     if (!email.trim() || !password.trim()) {
+//         alert('Email and password are required.');
+//         event.preventDefault();
+//     }
+// });
 

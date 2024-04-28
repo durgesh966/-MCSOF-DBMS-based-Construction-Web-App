@@ -52,12 +52,12 @@ const adminSignup = async (req, res) => {
         if (!first_name || !last_name || !email || !password || !phone_number) {
             return res.status(400).redirect("/adSignup?error=please+fill+all+input+fields");
         }
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
+        const emailIdChack = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailIdChack.test(email)) {
             return res.status(400).redirect("/adSignup?error=invalid+email+format");
         }
-        const phoneRegex = /^[0-9]{10}$/;
-        if (!phoneRegex.test(phone_number)) {
+        const phoneNumberChack = /^[0-9]{10}$/;
+        if (!phoneNumberChack.test(phone_number)) {
             return res.status(400).redirect("/adSignup?error=invalid+phone+number+format");
         }
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -84,41 +84,56 @@ const adminLogin = async (req, res) => {
         }
         const user = await Admin.findOne({ email });
         if (!user) {
-            return res.status(404).redirect("/adSignup?error=Admin+not+found+please+register+new+admin");
+            return res.status(404).redirect("/?error=Invalid+email+or+password");
         }
         const match = await bcrypt.compare(password, user.password);
         if (match) {
             return res.status(200).redirect("/adDashboard?success=Login+successful");
         } else {
-            return res.status(401).redirect("/?error=Incorrect+username+or+password");
+            await bcrypt.compare('not-a-valid-password', user.password);
+            return res.status(401).redirect("/?error=Invalid+email+or+password");
         }
     } catch (error) {
-        debug('Error during admin login:', error);
+        console.error('Error during admin login:', error);
         return res.status(500).redirect("/?error=Error+occurred+during+login");
     }
 };
-
 
 // Booking data routes
 
 const bookWorkData = async (req, res) => {
     try {
-        const booking = await Booking.find().lean();
-        req.flash('success', 'Successfully fetched booking data.');
-        res.render('./Admin/Booking/showBooking', { booking, successMessage: req.flash('success')[0] });
+        const bookings = await Booking.find().lean();
+        res.render('./Admin/Booking/showBooking', {
+            bookings: bookings,
+            message: req.query.message || '',
+            error: req.query.error || '',
+            success: req.query.success || ''
+        });
     } catch (error) {
-        handleError(error, req, res, 'Failed to fetch booking data');
+        console.error("Error in bookWorkData route:", error);
+        res.status(500).send("Internal Server Error");
     }
 };
 
+
 const bookedWorkFullData = async (req, res) => {
     try {
-        const userid = req.params.id;
-        const booking_full_data = await Booking.findById(userid).lean();
-        req.flash('success', 'Successfully fetched full booking data.');
-        res.render('./Admin/Booking/full_booking_details', { booking_full_data, successMessage: req.flash('success')[0] });
+        const userId = req.params.id;
+        const bookingFullData = await Booking.findById(userId).lean();
+
+        if (!bookingFullData) {
+            return res.status(404).send({ error: 'Booking not found' });
+        }
+        res.render('./Admin/Booking/full_booking_details', {
+            booking_full_data: bookingFullData,
+            message: req.query.message,
+            error: req.query.error,
+            success: req.query.success
+        });
     } catch (error) {
-        handleError(error, req, res, 'Failed to fetch full booking data');
+        console.error('Error fetching booking data:', error);
+        res.status(500).send({ error: 'Failed to Get full booking data' });
     }
 };
 
@@ -126,11 +141,9 @@ const deleteBookData = async (req, res) => {
     try {
         const delete_data = await Booking.findByIdAndDelete(req.params.id);
         if (delete_data) {
-            req.flash('success', 'Booking deleted successfully.');
-            res.status(200).json({ message: 'Booking deleted successfully' });
+            res.status(200).redirect("/booking_work_data?success=Booking+deleted+successfully");
         } else {
-            req.flash('error', 'Booking not found.');
-            res.status(404).json({ message: 'Booking not found' });
+            res.status(404).send({ message: 'Booking not found' });
         }
     } catch (error) {
         handleError(error, req, res, 'Error occurred while deleting booking data');
@@ -142,7 +155,12 @@ const deleteBookData = async (req, res) => {
 const showAllContacts = async (req, res) => {
     try {
         const all_contacts = await ContectUs.find().lean();
-        res.render('./Admin/contact/showContact', { all_contacts });
+        res.render('./Admin/contact/showContact', {
+            all_contacts,
+            message: req.query.message,
+            error: req.query.error,
+            success: req.query.success
+        });
     } catch (error) {
         handleError(error, req, res, 'Failed to fetch all contacts');
     }
@@ -150,19 +168,27 @@ const showAllContacts = async (req, res) => {
 
 const searchContact = async (req, res) => {
     try {
-        const query = req.query.query || '';
+        let query = req.query.query || '';
+        if (typeof query !== 'string') {
+            return res.status(400).json({ error: 'Invalid search query' });
+        }
+        if (query.length > 50) {
+            return res.status(400).json({ error: 'Search query is too long' });
+        }
+        query = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         const contacts = await ContectUs.find({
             $or: [
                 { full_name: { $regex: new RegExp(query, 'i') } },
                 { email: { $regex: new RegExp(query, 'i') } },
             ],
         }).lean();
-        req.flash('success', 'Successfully searched contacts.');
-        res.render('./Admin/contact/searchResult', { contacts, query, successMessage: req.flash('success')[0] });
+        res.render('./Admin/contact/searchResult', { contacts, query, success: 'Successfully searched contacts'});
     } catch (error) {
-        handleError(error, req, res, 'Failed to search contacts');
+        console.error('Error searching contacts:', error);
+        res.status(500).json({ error: 'Failed to search contacts' });
     }
 };
+
 
 const deleteContacts = async (req, res) => {
     try {
@@ -178,7 +204,12 @@ const deleteContacts = async (req, res) => {
 const newEmployeeApplyData = async (req, res) => {
     try {
         const new_employee_data = await NewJoiningApply.find().lean();
-        res.render('./Admin/newEmployeeApplication/newEmployee', { new_employee_data });
+        res.render('./Admin/newEmployeeApplication/newEmployee', {
+            new_employee_data,
+            message: req.query.message,
+            error: req.query.error,
+            success: req.query.success
+        });
     } catch (error) {
         handleError(error, req, res, 'Failed to fetch new employee application data');
     }
@@ -206,7 +237,11 @@ const deleteEmployeeApplyData = async (req, res) => {
 // Add services routes
 
 const addServices = (req, res) => {
-    res.render('./Admin/service/addService');
+    res.render('./Admin/service/addService', {
+        message: req.query.message,
+        error: req.query.error,
+        success: req.query.success
+    });
 };
 
 const uploadNewServices = async (req, res) => {
@@ -214,34 +249,24 @@ const uploadNewServices = async (req, res) => {
         upload.single('image')(req, res, async (err) => {
             if (err instanceof multer.MulterError) {
                 debug('Multer Error:', err);
-                req.flash('error', 'Multer Error.');
                 return res.redirect('/add-services');
             } else if (err) {
                 debug('Unknown Error:', err);
-                req.flash('error', 'Unknown Error.');
                 return res.redirect('/add-services');
             }
             const { titlename, description } = req.body;
             const image = req.file ? req.file.filename : null;
-            console.log(image);
             debug(titlename, description, image);
             await Service.create({
                 titlename,
                 description,
                 image
             });
-            req.flash('success', 'Service added successfully.');
-            return res.redirect('/add-services');
+            return res.redirect('/add-services?sucess=Service+added+successfully');
         });
     } catch (error) {
         let errorMessage = 'Internal Server Error. Please fill in all input fields.';
-        if (error.name === 'ValidationError') {
-            errorMessage = 'Validation Error. Please check your input data.';
-        } else if (error.code === 11000) {
-            errorMessage = 'Duplicate entry. The provided email or phone number is already registered.';
-        }
-        req.flash('error', errorMessage);
-        return res.redirect('/add-services');
+        return res.redirect(`/add-services?error=${errorMessage}`);
     }
 };
 
@@ -250,7 +275,12 @@ const uploadNewServices = async (req, res) => {
 const showWorkData = async (req, res) => {
     try {
         const show_Work_details = await WorkDetails.find().lean();
-        res.render('./Admin/service/add_Work_Details', { show_Work_details });
+        res.render('./Admin/service/add_Work_Details', {
+            show_Work_details,
+            message: req.query.message,
+            error: req.query.error,
+            success: req.query.success
+        });
     } catch (error) {
         handleError(error, req, res, 'Failed to fetch work details');
     }

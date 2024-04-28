@@ -1,7 +1,21 @@
 {{>adminNavbar}}
+{{#if message}}
+    <div id="flash-message" class="alert alert-info alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x" role="alert">
+        {{message}}
+    </div>
+{{else if error}}
+    <div id="flash-message" class="alert alert-danger alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x" role="alert">
+        {{error}}
+    </div>
+{{else if success}}
+    <div id="successAlert" class="alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x" role="alert">
+        {{success}}
+    </div>
+{{/if}}
+
 <div class="main-container mt-5">
     <div class="input-group">
-        <a href="/show_all_contects" class="btn btn-primary text-dark">&laquo; Back to contacts</a>
+        <a href="/show_all_contacts" class="btn btn-primary text-dark">&laquo; Back to contacts</a>
     </div>
 </div>
 <div class="h-100 mt-5 mb-5 print-area">
