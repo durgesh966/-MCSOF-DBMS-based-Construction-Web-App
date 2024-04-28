@@ -15,8 +15,13 @@ const handleDatabaseError = (res, error) => {
     return res.status(500).send(`<script>Swal.fire("Error", "${errorMessage}", "error");</script>`);
 };
 
-const homePage = (req, res) => {
-    res.render('index');
+const homePage = async (req, res) => {
+    try {
+        const show_Work_details = await WorkDetails.find().lean();
+        res.render('index', { show_Work_details });
+    } catch (error) {
+        handleDatabaseError(res, error);
+    }
 };
 
 const about_us = (req, res) => {
@@ -67,14 +72,6 @@ const service_booking = async (req, res) => {
 };
 
 // ----------------------- for worker only -------------------------------
-const work_details = async (req, res) => {
-    try {
-        const show_Work_details = await WorkDetails.find().lean();
-        res.render('index', { show_Work_details });
-    } catch (error) {
-        handleDatabaseError(res, error);
-    }
-};
 
 const worker_details = async (req, res) => {
     try {
@@ -134,4 +131,4 @@ const contact_form_subbmit = async (req, res) => {
     }
 };
 
-module.exports = { homePage, about_us, service, full_service_details, book_service, service_booking, work_details, worker_details, show_worker_details, new_employees_form, new_employees_joining_form, contact, contact_form_subbmit };
+module.exports = { homePage, about_us, service, full_service_details, book_service, service_booking, worker_details, show_worker_details, new_employees_form, new_employees_joining_form, contact, contact_form_subbmit };

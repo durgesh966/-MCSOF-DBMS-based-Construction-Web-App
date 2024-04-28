@@ -3,24 +3,24 @@
 {{> adminNavbar}}
 
 {{#if message}}
-<div id="flash-message" class="alert alert-info alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x" role="alert">
-    {{message}}
-</div>
+    <div id="flash-message" class="alert alert-info alert-dismissible fade show position-fixed top-50 start-50 translate-middle-x" role="alert">
+        {{message}}
+    </div>
 {{else if error}}
-<div id="flash-message" class="alert alert-danger alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x" role="alert">
-    {{error}}
-</div>
+    <div id="flash-message" class="alert alert-danger alert-dismissible fade show position-fixed top-50 start-50 translate-middle-x" role="alert">
+        {{error}}
+    </div>
 {{else if success}}
-<div id="flash-message" class="alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x" role="alert">
-    {{success}}
-</div>
+    <div id="flash-message" class="alert alert-success alert-dismissible fade show position-fixed top-50 start-50 translate-middle-x" role="alert">
+        {{success}}
+    </div>
 {{/if}}
 
-{{#if booking.length}}
+{{#if bookings.length}}
 <div class="container mt-5">
     <h2 class="mb-5 text-center">Our Bookings</h2>
     <div class="row mt-5 mb-5">
-        {{#each booking}}
+        {{#each bookings}}
         <div class="col-lg-4 mb-4">
             <div class="card text-center">
                 <div class="member-card pt-3 pb-3">

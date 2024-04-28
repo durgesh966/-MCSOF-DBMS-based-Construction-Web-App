@@ -9,53 +9,59 @@
         <form class="login-form" id="book_Service" action="/booking_service" method="POST">
             <h3 class="card-title mb-3 text-center">Book Service</h3>
             <div class="form-group">
-                <label for="fname">Full Name</label>
+                <label for="full_name">Full Name</label>
                 <input type="text" name="full_name" id="full_name" class="form-control"
-                    placeholder="Enter Your full Name">
+                    placeholder="Enter Your Full Name">
             </div>
 
             <div class="form-group mt-2">
                 <label for="email">Email</label>
-                <input type="text" name="email" id="email" class="form-control" placeholder="Enter Your Email">
+                <input type="email" name="email" id="email" class="form-control" placeholder="Enter Your Email">
             </div>
+            
             <div class="form-group mt-2">
-                <label for="Phone">Phone</label>
-                <input type="number" name="phone_number" id="Phone" class="form-control"
+                <label for="phone_number">Phone</label>
+                <input type="tel" name="phone_number" id="phone_number" class="form-control"
                     placeholder="Enter Your Phone Number">
             </div>
+            
             <div class="form-group mt-2">
-                <label for="Country">Location</label>
-                <input type="text" name="location" id="Country" class="form-control"
-                    placeholder="Enter Your full Address hear...">
+                <label for="location">Location</label>
+                <input type="text" name="location" id="location" class="form-control"
+                    placeholder="Enter Your Location">
             </div>
+            
             <div class="form-group mt-2">
-                <label for="Country">Address</label>
-                <textarea class="form-control" name="address" id="Country" cols="30" rows="3"
-                    placeholder="Enter Your full Address hear..."></textarea>
+                <label for="address">Address</label>
+                <textarea class="form-control" name="address" id="address" cols="30" rows="3"
+                    placeholder="Enter Your Address"></textarea>
             </div>
+            
             <div class="form-group mt-2">
-                <label for="Service">Type of Work</label>
-                <input type="text" name="type_of_work" id="Service" class="form-control"
-                    placeholder="Enter Your Work Type">
+                <label for="type_of_work">Type of Work</label>
+                <input type="text" name="type_of_work" id="type_of_work" class="form-control"
+                    placeholder="Enter Type of Work">
             </div>
+            
             <div class="form-group mt-2">
-                <label for="Service">Project Details</label>
-                <textarea name="projec_details" id="Service" class="form-control" placeholder="Enter Your Service"
-                    cols="30" rows="5"></textarea>
+                <label for="project_details">Project Details</label>
+                <textarea name="project_details" id="project_details" class="form-control"
+                    placeholder="Enter Project Details" cols="30" rows="5"></textarea>
             </div>
 
             <div class="form-group mt-2">
-                <label for="Charge">Budget</label>
-                <input type="number" name="budget" id="salary" class="form-control" placeholder="Enter Your Charge">
+                <label for="budget">Budget</label>
+                <input type="number" name="budget" id="budget" class="form-control" placeholder="Enter Your Budget">
             </div>
+            
             <div class="form-group mt-4">
-                <label for="Charge">Preferred Start Date</label>
-                <input type="date" name="preferred_start_date" id="salary" class="form-control"
-                    placeholder="Enter Your Charge">
+                <label for="preferred_start_date">Preferred Start Date</label>
+                <input type="date" name="preferred_start_date" id="preferred_start_date" class="form-control">
             </div>
+            
             <div class="form-group mt-3">
                 <input type="reset" name="reset" value="Clear" class="btn btn-primary text-dark">
-                <input class="btn btn-primary text-dark" type="button" value="Submit" onclick="submitServiceForm()">
+                <input class="btn btn-primary text-dark" type="submit" value="Submit">
             </div>
         </form>
     </div>

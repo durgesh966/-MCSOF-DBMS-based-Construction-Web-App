@@ -1,23 +1,19 @@
 {{> adminNavbar}}
 
 {{#if message}}
-<div id="flash-message"
-    class="alert alert-info alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x" role="alert">
-    {{message}}
-</div>
+    <div id="flash-message" class="alert alert-info alert-dismissible fade show position-fixed top-50 start-50 translate-middle-x" role="alert">
+        {{message}}
+    </div>
 {{else if error}}
-<div id="flash-message"
-    class="alert alert-danger alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x"
-    role="alert">
-    {{error}}
-</div>
-{{else if successMessage}}
-<div id="flash-message"
-    class="alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x"
-    role="alert">
-    {{successMessage}}
-</div>
+    <div id="flash-message" class="alert alert-danger alert-dismissible fade show position-fixed top-50 start-50 translate-middle-x" role="alert">
+        {{error}}
+    </div>
+{{else if success}}
+    <div id="flash-message" class="alert alert-success alert-dismissible fade show position-fixed top-50 start-50 translate-middle-x" role="alert">
+        {{success}}
+    </div>
 {{/if}}
+
 <div class="box mt-2 mb-4">
     <div class="register mt-5">
         <form class="login-form" id="addEmployees" action="/registration_worker" method="post"

@@ -116,7 +116,6 @@ const bookWorkData = async (req, res) => {
     }
 };
 
-
 const bookedWorkFullData = async (req, res) => {
     try {
         const userId = req.params.id;
@@ -170,10 +169,10 @@ const searchContact = async (req, res) => {
     try {
         let query = req.query.query || '';
         if (typeof query !== 'string') {
-            return res.status(400).json({ error: 'Invalid search query' });
+            return res.status(400).redirect("/show_all_contacts?error=Invalid+search+query");
         }
         if (query.length > 50) {
-            return res.status(400).json({ error: 'Search query is too long' });
+            return res.status(400).redirect("/show_all_contacts?error=Search+query+too+long");
         }
         query = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         const contacts = await ContectUs.find({
@@ -182,18 +181,20 @@ const searchContact = async (req, res) => {
                 { email: { $regex: new RegExp(query, 'i') } },
             ],
         }).lean();
-        res.render('./Admin/contact/searchResult', { contacts, query, success: 'Successfully searched contacts'});
+        if (!contacts.length) {
+            return res.status(500).redirect("/show_all_contacts?error=Search+result+not+found");
+        }
+        res.render('./Admin/contact/searchResult', { contacts, query, success: 'Successfully searched contacts' });
     } catch (error) {
         console.error('Error searching contacts:', error);
         res.status(500).json({ error: 'Failed to search contacts' });
     }
 };
 
-
 const deleteContacts = async (req, res) => {
     try {
         await ContectUs.findByIdAndDelete(req.params.id);
-        res.redirect('/show_all_contacts');
+        res.redirect('/show_all_contacts?success=Contact+Delete+Successfully');
     } catch (error) {
         handleError(error, req, res, 'Error occurred while deleting contacts');
     }
@@ -228,7 +229,7 @@ const deleteEmployeeApplyData = async (req, res) => {
     try {
         await NewJoiningApply.findByIdAndDelete(req.params.id);
         console.log(NewJoiningApply);
-        res.redirect('/new_employee_details');
+        res.redirect('/new_employee_details?success=User+Data+Deleted');
     } catch (error) {
         handleError(error, req, res, 'Error occurred while deleting new employee application data');
     }
@@ -249,24 +250,27 @@ const uploadNewServices = async (req, res) => {
         upload.single('image')(req, res, async (err) => {
             if (err instanceof multer.MulterError) {
                 debug('Multer Error:', err);
-                return res.redirect('/add-services');
+                return res.redirect('/add-services?error=Multer+Produced+Error');
             } else if (err) {
                 debug('Unknown Error:', err);
-                return res.redirect('/add-services');
+                return res.redirect('/add-services?error=Unknown+error');
             }
             const { titlename, description } = req.body;
             const image = req.file ? req.file.filename : null;
             debug(titlename, description, image);
+            if (!titlename || !description || !image) {
+                return res.redirect("/add-services?error=Fill+all+input+fields");
+            }
             await Service.create({
                 titlename,
                 description,
                 image
             });
-            return res.redirect('/add-services?sucess=Service+added+successfully');
+            return res.redirect('/add-services?success=Service+added+successfully');
         });
     } catch (error) {
-        let errorMessage = 'Internal Server Error. Please fill in all input fields.';
-        return res.redirect(`/add-services?error=${errorMessage}`);
+        debug('Internal Server Error:', error);
+        return res.redirect('/add-services?error=Internal+Server+Error');
     }
 };
 
@@ -295,19 +299,18 @@ const addWorkData = async (req, res) => {
             team_members,
             customers
         });
-        res.redirect('/success');
+        res.redirect('/add_working_details?success=Data+added+successfully');
     } catch (error) {
         console.error('Failed to add working details:', error);
         res.status(500).send('Failed to add working details');
     }
 };
 
-
 const updateWorkData = async (req, res) => {
     try {
         const { docID, update_new_task, update_task_completed, update_team_members, update_customers } = req.body;
         if (!update_new_task || !update_task_completed || !update_team_members || !update_customers) {
-            return res.redirect('/add_working_details');
+            return res.redirect('/add_working_details?error=Error+during+submission');
         }
         const updateData = {
             new_task: update_new_task,
@@ -317,15 +320,14 @@ const updateWorkData = async (req, res) => {
         };
         const updatedWorkDetails = await WorkDetails.findByIdAndUpdate(docID, updateData, { new: true });
         if (!updatedWorkDetails) {
-            return res.redirect('/add_working_details');
+            return res.redirect('/add_working_details?error=Data+updating+faild');
         }
-        return res.redirect('/add_working_details');
+        return res.redirect('/add_working_details?success=Data+Update+Successfull');
     } catch (error) {
         console.error('Error adding or updating work details:', error);
-        return res.redirect('/adDashboard');
+        return res.redirect('/adDashboard?error=Error+during+subbmission');
     }
 };
-
 
 // Add employee routes
 
@@ -333,7 +335,7 @@ const registerWorker = (req, res) => {
     res.render('./Admin/addEmployee/registration_worker', {
         message: req.query.message,
         error: req.query.error,
-        successMessage: req.query.successMessage
+        success: req.query.success
     });
 };
 
@@ -365,17 +367,17 @@ const registerWorkerFormSubmit = async (req, res) => {
                 charge,
                 task_completed
             });
-            const successMessage = 'Form submitted successfully!';
-            return res.redirect(`/registration_worker=${encodeURIComponent(successMessage)}`);
+            return res.redirect('/registration_worker?success=Form+submitted+successfully');
         });
     } catch (error) {
         let errorMessage = 'Internal Server Error. Please fill in all input fields.';
-        if (error.name === 'ValidationError') {
+        if (error.name === 'MulterError') {
+            errorMessage = 'File upload error: ' + error.message;
+        } else if (error.name === 'ValidationError') {
             errorMessage = 'Validation Error. Please check your input data.';
         } else if (error.code === 11000) {
             errorMessage = 'Duplicate entry. The provided email or phone number is already registered.';
         }
-        req.flash('error', errorMessage);
         return res.redirect('/registration_worker');
     }
 };

@@ -62,3 +62,7 @@ body {
         top: 0;
     }
 }
+
+#flash-message{
+    z-index: 1;
+}
