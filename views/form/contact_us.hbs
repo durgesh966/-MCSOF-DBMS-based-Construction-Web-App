@@ -1,4 +1,17 @@
 {{>navbar}}
+{{#if message}}
+    <div id="flash-message" class="alert alert-info alert-dismissible fade show position-fixed top-50 start-50 translate-middle-x" role="alert">
+        {{message}}
+    </div>
+{{else if error}}
+    <div id="flash-message" class="alert alert-danger alert-dismissible fade show position-fixed top-50 start-50 translate-middle-x" role="alert">
+        {{error}}
+    </div>
+{{else if success}}
+    <div id="flash-message" class="alert alert-success alert-dismissible fade show position-fixed top-50 start-50 translate-middle-x" role="alert">
+        {{success}}
+    </div>
+{{/if}}
 <div class="container d-flex justify-content-center align-items-center mt-5">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 790 563" fill="none">
     <g id="Image">
@@ -463,7 +476,7 @@
 
     <!-- Submit btn -->
     <div class="text-center">
-      <input class="text-dark btn btn-primary mt-3 mb-5" type="button" value="Send Message" onclick="submitContactForm()">
+      <input class="text-dark btn btn-primary mt-3 mb-5" type="submit" value="Send Message">
       <small>or press <strong>enter</strong></small>
     </div>
   </form>

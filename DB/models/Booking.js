@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const BookingSchema = mongoose.Schema({
+    serviceId: {
+        type: Number,
+        required: true
+    },
     full_name: {
         type: String,
         required: true
@@ -25,7 +29,7 @@ const BookingSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    projec_details: {
+    project_details: {
         type: String,
         required: true
     },

@@ -1,5 +1,22 @@
 {{> navbar}}
+
+{{#if message}}
+    <div id="flash-message" class="alert alert-info alert-dismissible fade show position-fixed top-50 start-50 translate-middle-x" role="alert">
+        {{message}}
+    </div>
+{{else if error}}
+    <div id="flash-message" class="alert alert-danger alert-dismissible fade show position-fixed top-50 start-50 translate-middle-x" role="alert">
+        {{error}}
+    </div>
+{{else if success}}
+    <div id="flash-message" class="alert alert-success alert-dismissible fade show position-fixed top-50 start-50 translate-middle-x" role="alert">
+        {{success}}
+    </div>
+{{/if}}
+
+
 <div class="main-container mt-5">
+	<h1>{{success}}</h1>
 	<h4 class="sub--main-title mt-5">High standards, high quality</h4>
 	<h1 class="main-title anim">Design & Development</h1>
 	<p class="description sub--main-title">We connect you with the best home service professionals in your city</p>

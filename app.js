@@ -14,13 +14,13 @@ const {
     full_service_details, 
     book_service, 
     service_booking, 
-    work_details, 
+    printPage,
     worker_details, 
     show_worker_details, 
     new_employees_form, 
     new_employees_joining_form, 
     contact, 
-    contact_form_subbmit 
+    contact_form_submit 
 } = require("./src/routes/user/userRoute");
 
 const app = express();
@@ -36,15 +36,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static('uploads'));
 
 // Template engine
-app.engine('.hbs', exphbs.engine({ extname: '.hbs' }));
-app.set('view engine', '.hbs');
-
+app.engine('hbs', exphbs({ extname: '.hbs' }));
+app.set('view engine', 'hbs');
 // Routes
 app.get('/', homePage);
 app.get('/about_us', about_us);
 app.get('/services', service);
 app.get('/services:id', full_service_details);
-app.get('/booking_service', book_service);
+app.get('/booking_service:id', book_service);
+app.get('/final_print', printPage);
 app.get('/worker_details', worker_details);
 app.get('/worker_details:id', show_worker_details);
 app.get('/new_employees_joining_form', new_employees_form);
@@ -53,7 +53,7 @@ app.get('/contactUs_form', contact);
 // Post routes
 app.post('/booking_service', service_booking);
 app.post('/new_employees_joining_form', new_employees_joining_form);
-app.post('/contactUs_form', contact_form_subbmit);
+app.post('/contactUs_form', contact_form_submit);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
