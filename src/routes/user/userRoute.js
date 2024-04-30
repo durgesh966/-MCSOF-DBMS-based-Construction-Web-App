@@ -152,7 +152,6 @@ const searchBookedService = async (req, res) => {
 const searchedServices = async (req, res) => {
     try {
         let serviceId = req.body.serviceId; 
-        console.log(serviceId);
         if (!serviceId || isNaN(serviceId)) {
             return res.status(400).redirect("/work_status?error=Invalid+search+query");
         }
@@ -161,8 +160,6 @@ const searchedServices = async (req, res) => {
                 { serviceId: serviceId }
             ],
         }).lean();
-
-        console.log(booking_data.full_name);
         if (booking_data.length === 0) {
             return res.status(404).redirect("/work_status?error=Search+result+not+found");
         }
