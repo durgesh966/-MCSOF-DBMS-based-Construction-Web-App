@@ -136,6 +136,43 @@ const printPage = async (req, res) => {
     }
 };
 
+const searchBookedService = async (req, res) => {
+    try {
+        res.render('searchService/searchPage.hbs', {
+            message: req.query.message,
+            error: req.query.error,
+            success: req.query.success
+        });
+    } catch (error) {
+        console.error("Error rendering search page:", error);
+        handleDatabaseError(res, error); // Assuming handleDatabaseError is defined elsewhere
+    }
+};
+
+const searchedServices = async (req, res) => {
+    try {
+        let serviceId = req.body.serviceId; 
+        console.log(serviceId);
+        if (!serviceId || isNaN(serviceId)) {
+            return res.status(400).redirect("/work_status?error=Invalid+search+query");
+        }
+        const booking_data = await Booking.find({
+            $or: [
+                { serviceId: serviceId }
+            ],
+        }).lean();
+
+        console.log(booking_data.full_name);
+        if (booking_data.length === 0) {
+            return res.status(404).redirect("/work_status?error=Search+result+not+found");
+        }
+        res.render('searchService/searchResultPage.hbs', { booking_data, success: 'Successfully searched book data' });
+    } catch (error) {
+        console.error('Error searching contacts:', error);
+        res.status(500).json({ error: 'Failed to search contacts' });
+    }
+};
+
 // ----------------------- for worker only -------------------------------
 
 const worker_details = async (req, res) => {
@@ -241,4 +278,4 @@ const contact_form_submit = async (req, res) => {
 };
 
 
-module.exports = { homePage, about_us, service, full_service_details, book_service, service_booking, printPage, worker_details, show_worker_details, new_employees_form, new_employees_joining_form, contact, contact_form_submit };
+module.exports = { homePage, about_us, service, full_service_details, book_service, service_booking, printPage, searchBookedService, worker_details, show_worker_details, new_employees_form, new_employees_joining_form, contact, contact_form_submit, searchedServices };

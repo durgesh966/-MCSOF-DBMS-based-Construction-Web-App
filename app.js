@@ -15,12 +15,14 @@ const {
     book_service, 
     service_booking, 
     printPage,
+    searchBookedService,
     worker_details, 
     show_worker_details, 
     new_employees_form, 
     new_employees_joining_form, 
     contact, 
-    contact_form_submit 
+    contact_form_submit, 
+    searchedServices
 } = require("./src/routes/user/userRoute");
 
 const app = express();
@@ -45,15 +47,18 @@ app.get('/services', service);
 app.get('/services:id', full_service_details);
 app.get('/booking_service:id', book_service);
 app.get('/final_print', printPage);
+app.get('/work_status', searchBookedService);
 app.get('/worker_details', worker_details);
 app.get('/worker_details:id', show_worker_details);
 app.get('/new_employees_joining_form', new_employees_form);
 app.get('/contactUs_form', contact);
+app.get('/show_search_service', searchedServices);
 
 // Post routes
 app.post('/booking_service', service_booking);
 app.post('/new_employees_joining_form', new_employees_joining_form);
 app.post('/contactUs_form', contact_form_submit);
+app.post('/show_search_service', searchedServices);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

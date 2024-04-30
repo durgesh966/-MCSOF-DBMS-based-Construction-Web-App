@@ -1,0 +1,29 @@
+{{> navbar}}
+
+{{#if message}}
+<div id="flash-message"
+    class="alert alert-info alert-dismissible fade show position-fixed top-50 start-50 translate-middle-x" role="alert">
+    {{message}}
+</div>
+{{else if error}}
+<div id="flash-message"
+    class="alert alert-danger alert-dismissible fade show position-fixed top-50 start-50 translate-middle-x"
+    role="alert">
+    {{error}}
+</div>
+{{else if success}}
+<div id="flash-message"
+    class="alert alert-success alert-dismissible fade show position-fixed top-50 start-50 translate-middle-x"
+    role="alert">
+    {{success}}
+</div>
+{{/if}}
+
+<div class="main-container mt-5 mb-5">
+    <form class="form-inline me-3 custom-bg mt-5" action="/show_search_service" method="POST">
+        <div class="input-group">
+            <input type="number" class="form-control" name="serviceId" placeholder="Search by name or number" required />
+            <button type="submit" class="btn btn-primary text-dark">Search</button>
+        </div>
+    </form>
+</div>

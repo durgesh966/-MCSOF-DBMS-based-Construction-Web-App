@@ -1,0 +1,105 @@
+{{> navbar}}
+{{#if message}}
+<div id="flash-message"
+    class="alert alert-info alert-dismissible fade show position-fixed top-50 start-50 translate-middle-x" role="alert">
+    {{message}}
+</div>
+{{else if error}}
+<div id="flash-message"
+    class="alert alert-danger alert-dismissible fade show position-fixed top-50 start-50 translate-middle-x"
+    role="alert">
+    {{error}}
+</div>
+{{else if success}}
+<div id="flash-message"
+    class="alert alert-success alert-dismissible fade show position-fixed top-50 start-50 translate-middle-x"
+    role="alert">
+    {{success}}
+</div>
+{{/if}}
+
+
+<div class="main-container mt-5">
+    <div class="input-group">
+        <a href="/" class="btn btn-primary text-dark me-5">&laquo; Back</a>
+    </div>
+</div>
+
+<div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="row d-flex justify-content-center">
+            <div class="col-xl-6 col-md-12">
+                <div class="user-card-full">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card-block print-area">
+                                <div class="d-flex align-items-center">
+                                    <img class="m-b-20" src="./images/logo/logo.png" alt="" width="80" height="74">
+                                    <h6 class="m-b-20 p-b-5 b-b-default f-w-600 ml-2">Maneshwar Construction Service On
+                                        Faire</h6>
+                                </div>
+
+                                {{#each booking_data}}
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h5 class="m-b-10 f-w-600">Application Number(serviceId):
+                                            <strong>{{this.serviceId}}</strong>
+                                        </h5>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <h5 class="m-b-10">Work Status: 
+                                            <strong>{{this.work_status}}</strong>
+                                        </h5>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <p class="m-b-10 f-w-600">Name</p>
+                                        <h5 class="f-w-400">{{this.full_name}}</h5>
+                                    </div>
+                                    <h6 class="m-b-10 m-t-20 p-b-5 b-b-default f-w-600"></h6>
+                                    <div class="col-sm-7">
+                                        <p class="m-b-10 f-w-600">Eamil</p>
+                                        <h6 class="f-w-400">{{this.email}}</h6>
+                                    </div>
+                                    <h6 class="m-b-10 m-t-20 p-b-5 b-b-default f-w-600"></h6>
+                                    <div class="col-sm-6">
+                                        <p class="m-b-10 f-w-600">Phone</p>
+                                        <h6 class="f-w-400">{{this.phone_number}}</h6>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <p class="m-b-10 f-w-600">Location</p>
+                                        <h6 class="f-w-400">{{this.location}}</h6>
+                                    </div>
+                                    <h6 class="m-b-10 m-t-20 p-b-5 b-b-default f-w-600"></h6>
+                                    <div class="col-sm-7">
+                                        <p class="m-b-10 f-w-600">Address</p>
+                                        <h6 class="f-w-400">{{this.address}}</h6>
+                                    </div>
+                                    <h6 class="m-b-10 m-t-20 p-b-5 b-b-default f-w-600"></h6>
+                                    <div class="col-sm-7">
+                                        <p class="m-b-10 f-w-600">Work</p>
+                                        <h6 class="f-w-400">{{this.type_of_work}}</h6>
+                                    </div>
+                                    <h6 class="m-b-10 m-t-20 p-b-5 b-b-default f-w-600"></h6>
+                                    <div class="col-sm-12">
+                                        <p class="m-b-10 f-w-600">Details</p>
+                                        <h6 class="f-w-400">{{this.project_details}}</h6>
+                                    </div>
+                                    <h6 class="m-b-10 m-t-20 p-b-5 b-b-default f-w-600"></h6>
+                                    <div class="col-sm-6">
+                                        <p class="m-b-10 f-w-600">Budget</p>
+                                        <h6 class="f-w-400">{{this.budget}}</h6>
+                                    </div>
+                                </div>
+                                {{/each}}
+                                <h6 class="m-b-10 m-t-40 p-b-5 b-b-default f-w-600">Signature</h6>
+                            </div>
+                            <button class="btn btn-primary text-dark" id="printButton" onclick="printPage()">Print
+                                Page</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
