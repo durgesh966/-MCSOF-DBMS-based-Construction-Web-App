@@ -6,6 +6,7 @@ const Booking = require("../../../DB/models/Booking");
 const Worker = require("../../../DB/models/Worker");
 const NewJoiningApply = require("../../../DB/models/NewJoiningApply");
 const ContectUs = require("../../../DB/models/ContectUs");
+const passport = require('passport');
 
 const handleDatabaseError = (res, error) => {
     let errorMessage = 'Internal Server Error. Please fill input fields';
@@ -274,5 +275,14 @@ const contact_form_submit = async (req, res) => {
     }
 };
 
+// ------------ Google Authentication ------------------
+const user_login = passport.authenticate('google', {
+    scope: ['email', 'profile']
+});
 
-module.exports = { homePage, about_us, service, full_service_details, book_service, service_booking, printPage, searchBookedService, worker_details, show_worker_details, new_employees_form, new_employees_joining_form, contact, contact_form_submit, searchedServices };
+const google_Auth_faliur_Success = passport.authenticate('google', {
+    successRedirect: "/userDashboard",
+    failureRedirect: "/"
+});
+
+module.exports = { homePage, about_us, service, full_service_details, book_service, service_booking, printPage, searchBookedService, worker_details, show_worker_details, new_employees_form, new_employees_joining_form, contact, contact_form_submit, searchedServices, user_login, google_Auth_faliur_Success };
