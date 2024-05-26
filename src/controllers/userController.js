@@ -1,18 +1,29 @@
-const loadAuth = (req, res) => {
-    res.render('auth');
+const User = require('../../DB/models/userLogin');
+
+const successGoogleLogin = async (req, res) => {
+    try {
+        let user = await User.findOne({ googleId: req.user.id });
+        if (!user) {
+            user = new User({
+                googleId: req.user.id,
+                displayName: req.user.displayName,
+                email: req.user.email
+            });
+            await user.save();
+        }
+        res.render('userDashboard/userDashboard', { user: req.user });
+        console.log(req.user);
+    } catch (error) {
+        console.error(error);
+        res.send("Error occurred while saving user data");
+    }
 }
 
-const successGoogleLogin = (req, res) => {
-    if (!req.user) {
-        res.status(401).send("Authentication failed");
-        console.log("Authentication failed");
-    } else {
-        res.status(200).send("Welcome " + req.user.email); 
-    }
-};
-
 const failureGoogleLogin = (req, res) => {
-    res.status(500).send("Internal Server Error");
-};
+    res.send("Error");
+}
 
-module.exports = { loadAuth, successGoogleLogin, failureGoogleLogin };
+module.exports = {
+    successGoogleLogin,
+    failureGoogleLogin
+}

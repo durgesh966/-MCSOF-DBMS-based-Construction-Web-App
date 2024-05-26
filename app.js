@@ -25,8 +25,6 @@ const {
     contact, 
     contact_form_submit, 
     searchedServices,
-    user_login, 
-    google_Auth_faliur_Success
 } = require("./src/routes/user/userRoute");
 
 const port = process.env.PORT || 9000;
@@ -45,8 +43,8 @@ app.use(session({
 // Passport initialization
 app.use(passport.initialize());
 app.use(passport.session());
-
-const userController = require('./src/controllers/userController');
+const googleAuth = require('./src/routes/user/googleAuth');
+app.use('/',googleAuth);
 
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -69,11 +67,6 @@ app.get('/worker_details/:id', show_worker_details);
 app.get('/new_employees_joining_form', new_employees_form);
 app.get('/contactUs_form', contact);
 app.get('/show_search_service', searchedServices);
-app.get('/auth', userController.loadAuth);
-app.get('/auth/google', user_login);
-app.get('/auth/google/callback', google_Auth_faliur_Success);
-app.get('/success', userController.successGoogleLogin); 
-app.get('/failure', userController.failureGoogleLogin);
 
 // Post routes
 app.post('/booking_service', service_booking);
