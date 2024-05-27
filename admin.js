@@ -23,7 +23,7 @@ const sessionMiddleware = session({
     secret: 'your-secret-key',
     resave: true,
     saveUninitialized: true,
-    store: MongoStore.create(mongoStoreOptions),
+    // store: MongoStore.create(mongoStoreOptions),
     cookie: { maxAge: 600000 },
 });
 app.use(sessionMiddleware);
