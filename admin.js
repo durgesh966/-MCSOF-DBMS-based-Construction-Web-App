@@ -14,7 +14,7 @@ const port = process.env.ADMIN_PORT || 9000;
 
 // MongoDB for session storage
 const mongoStoreOptions = {
-    mongoUrl: process.env.MONGO_URL,
+    mongoUrl: process.env.MONGO_URI,
     collection: 'sessions',
 };
 
