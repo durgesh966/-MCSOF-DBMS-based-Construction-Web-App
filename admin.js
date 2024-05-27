@@ -8,6 +8,8 @@ const MongoStore = require('connect-mongo');
 const flash = require('connect-flash');
 require('colors');
 require('dotenv').config({ path: "./config/.env" });
+require('dotenv').config({ path: path.join(__dirname, 'config', '.env') });
+
 require('./DB/connection/connection');
 const bodyParser = require('body-parser');
 const port = process.env.ADMIN_PORT || 9000;
