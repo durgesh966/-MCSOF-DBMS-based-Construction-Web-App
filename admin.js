@@ -39,7 +39,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'hbs');
 
-app.engine('hbs', exphbs.engine({
+app.engine('hbs', exphbs({
     extname: 'hbs',
     defaultLayout: 'main',
     layoutsDir: path.join(__dirname, 'views/layouts')
