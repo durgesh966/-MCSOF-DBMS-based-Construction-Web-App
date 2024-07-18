@@ -189,7 +189,7 @@ const worker_details = async (req, res) => {
 
 const show_worker_details = async (req, res) => {
     try {
-        const worker_profile = await Worker.findById(req.query.id).lean();
+        const worker_profile = await Worker.findById(req.params.id).lean();
         res.render('worker/worker_full_profile', {
             worker_profile,
             message: req.query.message,
