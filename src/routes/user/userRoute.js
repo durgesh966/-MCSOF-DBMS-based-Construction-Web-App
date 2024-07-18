@@ -6,7 +6,6 @@ const Booking = require("../../../DB/models/Booking");
 const Worker = require("../../../DB/models/Worker");
 const NewJoiningApply = require("../../../DB/models/NewJoiningApply");
 const ContectUs = require("../../../DB/models/ContectUs");
-const passport = require('passport');
 
 const handleDatabaseError = (res, error) => {
     let errorMessage = 'Internal Server Error. Please fill input fields';
