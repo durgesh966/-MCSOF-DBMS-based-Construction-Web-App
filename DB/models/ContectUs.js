@@ -8,7 +8,6 @@ const ContectUs = mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true
     },
     message: {
         type: String,
@@ -18,7 +17,6 @@ const ContectUs = mongoose.Schema({
     phone_number: {
         type: Number,
         required: true,
-        unique: true
     }
 });
 module.exports = mongoose.model("ContectUs_Details", ContectUs);
